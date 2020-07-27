@@ -25,9 +25,9 @@ const makeArt = (p: p5) => {
     return points;
   };
 
-  const count = 25;
+  const count = 15;
   const points = createGrid(count);
-  const margin = 20;
+  const margin = 100;
 
   let zoff = 0.0;
 
@@ -53,7 +53,7 @@ const makeArt = (p: p5) => {
       p.strokeWeight(2);
       p.arc(x, y, prevRadius, prevRadius, 0, Math.PI * 2);
       
-      p.strokeWeight(1);
+      p.strokeWeight(p.map(p.noise(x, y, zoff), 0, 1, 0, 5));
       p.stroke('black');
       
       p.arc(x, y, radius, radius, 0, Math.PI * 2);
