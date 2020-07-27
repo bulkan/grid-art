@@ -1,0 +1,36 @@
+{
+  "name": "grid-art",
+  "version": "1.0.0",
+  "description": "grid-art",
+  "main": "index.js",
+  "repository": "https://github.com/bulkan/grid-art",
+  "scripts": {
+    "dev": "parcel serve index.html",
+    "build": "parcel build index.html",
+    "deploy": "now deploy --prod",
+    "test": "jest src",
+    "now-build": "yarn build"
+  },
+  "author": "Bulkan Evcimen <bulkan@gmail.com>",
+  "license": " CC-BY-4.0",
+  "dependencies": {
+    "delaunay-triangulate": "^1.1.6",
+    "nice-color-palettes": "^3.0.0",
+    "p5": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/p5": "^0.9.0",
+    "@types/jest": "^26.0.5",
+    "jest": "^26.1.0",
+    "now": "^19.1.2",
+    "parcel-bundler": "^1.12.4",
+    "ts-jest": "^26.1.3",
+    "typescript": "^3.7.5"
+  },
+  "browserslist": [
+    "last 1 Chrome versions"
+  ],
+  "jest": {
+    "preset": "ts-jest"
+  }
+}
