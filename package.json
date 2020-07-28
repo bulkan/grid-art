@@ -16,11 +16,11 @@
   "dependencies": {
     "delaunay-triangulate": "^1.1.6",
     "nice-color-palettes": "^3.0.0",
-    "p5": "^1.0.0"
+    "p5": "1.1.9"
   },
   "devDependencies": {
-    "@types/p5": "^0.9.0",
     "@types/jest": "^26.0.5",
+    "@types/p5": "^0.9.1",
     "jest": "^26.1.0",
     "now": "^19.1.2",
     "parcel-bundler": "^1.12.4",
