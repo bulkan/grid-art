@@ -9,13 +9,19 @@ const makeArt = (p: p5) => {
     const points = [];
 
     for (let x = 0; x < count; x++) {
+      const color = p.color(palette[Math.floor(p.random() * palette.length)]);
+      color.setAlpha(p.map(p.noise(x), 0, 1, 0, 255));
+
       for (let y = 0; y < count; y++) {
         const u = count <= 1 ? 0.5 : x / (count - 1);
         const v = count <= 1 ? 0.5 : y / (count - 1);
 
-        const radius = p.map(p.noise(x, y), 0, 1, 0, 39);
+        const radius = p.map(p.noise(u, v), 0, 1, 0, p.width * 0.09);
+        const rotation = p.map(p.noise(u, v), 0, 1, 0, p.PI);
+
         points.push({
-          prevRadius: radius,
+          color,
+          rotation,
           radius,
           position: { u, v },
         });
@@ -25,8 +31,9 @@ const makeArt = (p: p5) => {
     return points;
   };
 
-  const count = 15;
-  const points = createGrid(count);
+  let points; 
+
+  const count = 30;
   const margin = 100;
 
   let zoff = 0.0;
@@ -34,35 +41,45 @@ const makeArt = (p: p5) => {
   p.setup = () => {
     p.createCanvas(800, 800);
     p.background("white");
-    // p.noLoop();
+    p.noLoop();
+    p.noStroke();
+
+    points = createGrid(count).filter(() => p.randomGaussian() > 0.5);
   };
 
   p.draw = () => {
-    p.noFill();
-    p.strokeWeight(1);
+    // p.fill('black')
+    // p.textFont('Helvetica');
 
     const { width, height } = p;
     
     points.forEach((data) => {
-      const { prevRadius = 0, radius, position } = data;
+      const { color, radius, position, rotation = 0 } = data;
       
       const x = p.lerp(margin, width - margin, position.u);
       const y = p.lerp(margin, height - margin, position.v);
 
-      p.stroke("white");
-      p.strokeWeight(2);
-      p.arc(x, y, prevRadius, prevRadius, 0, Math.PI * 2);
+      // p.strokeWeight(1);
+      // p.stroke('black');
       
-      p.strokeWeight(p.map(p.noise(x, y, zoff), 0, 1, 0, 5));
-      p.stroke('black');
-      
-      p.arc(x, y, radius, radius, 0, Math.PI * 2);
+      // p.arc(x, y, radius, radius, 0, Math.PI * 2);
 
-      data.prevRadius = radius
-      data.radius = p.map(p.noise(x, y, zoff), 0, 1, 0, 150);
+      // data.prevRadius = radius
+      // data.radius = p.map(p.noise(x, y, zoff), 0, 1, 1, 20);
+
+      p.push();
+      p.fill(color);
+      p.translate(x, y);
+      p.rotate(rotation);
+      
+      p.rect(0, 0, radius, radius);
+
+      // p.text("|", 0, 0);
+
+      p.pop();
     });
     
-    zoff += 0.006;
+    // zoff += 0.006;
 
   };
 };
