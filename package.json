@@ -12,7 +12,7 @@
     "now-build": "yarn build"
   },
   "author": "Bulkan Evcimen <bulkan@gmail.com>",
-  "license": " CC-BY-4.0",
+  "license": "MIT",
   "dependencies": {
     "delaunay-triangulate": "^1.1.6",
     "nice-color-palettes": "^3.0.0",
