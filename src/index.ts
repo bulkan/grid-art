@@ -5,8 +5,6 @@ const makeArt = (p: p5) => {
   let points;
 
   const count = 50;
-  const MIN_WIDTH = 5;
-  const MAX_WIDTH = 70;
 
   const loading = p.select('#loading');
 
@@ -16,6 +14,10 @@ const makeArt = (p: p5) => {
  
   const createGrid = (count) => {
     const points = [];
+
+    const MIN_WIDTH = 5;
+    // const MAX_WIDTH = 70;
+    const MAX_WIDTH = count * 2;
   
     for (let x = 0; x < count; x++) {      
       for (let y = 0; y < count; y++) {
@@ -62,7 +64,7 @@ const makeArt = (p: p5) => {
     
     console.table({ seed });
     
-    p.createCanvas(p.windowWidth / 2, p.windowWidth / 2);
+    p.createCanvas(p.windowWidth * .55, p.windowWidth * .55);
     p.background("white");
     p.noLoop();
     p.noStroke();
@@ -74,8 +76,8 @@ const makeArt = (p: p5) => {
   p.draw = () => {
     const { width, height } = p;
     const margin = width * 0.075;
-    
-    points.forEach((data) => {
+    points.forEach((data, i) => {
+
       const { color, radius, position, rotation = 0 } = data;
       
       const x = p.lerp(margin, width - margin, position.u);
@@ -86,8 +88,6 @@ const makeArt = (p: p5) => {
       p.translate(x, y);
       p.rotate(rotation);      
       rect(0, 0, radius, color);
-      // p.fill(color);
-      // p.rect(0, 0, radius, radius);
 
       p.pop();
     });
