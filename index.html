@@ -12,14 +12,24 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-direction: column;
       }
 
       canvas {
-        outline: 1px solid #fbf8f8;
+        /* outline: 1px solid #fbf8f8; */
+        outline: 5px solid black;
+      }
+
+      #loading {
+        font-style: bold;
+        font-size: 2em;
+        transition: all;
+        transition-duration: 300ms;
       }
     </style>
 
     <body>
+      <div id="loading">Generating...</div>
     </body> 
 
     <script src="./src/index.ts"></script>
