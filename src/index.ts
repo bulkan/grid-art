@@ -26,12 +26,9 @@ function fitSquares(width: number, height: number, n): number {
 
 const makeArt = (p: p5) => {
   let points;
-
   const count = 50;
-
   const MIN_WIDTH = 5;
   const MAX_WIDTH = 90;
-
   const loading = p.select('#loading');
 
   const palette = palettes[Math.floor(p.random() * palettes.length - 1)];
@@ -62,14 +59,14 @@ const makeArt = (p: p5) => {
   };
 
   const rect = (x, y, width, color: p5.Color) => {
-    // const MAX_POINTS = p.randomGaussian() * 1000;
-    const MAX_POINTS = p.map(width, MIN_WIDTH, MAX_WIDTH, count, 4000);
+    const MAX_POINTS = 4000;
+    const POINTS = p.map(width, MIN_WIDTH, MAX_WIDTH, count, MAX_POINTS);
 
-    color.setAlpha(p.map(MAX_POINTS, count, 4000, 190, 1));
+    color.setAlpha(p.map(POINTS, count, MAX_POINTS, 190, 1));
     p.fill(color);
-
-    for (let i = 0; i < MAX_POINTS; i++) {
-      const noise = p.noise(i, MAX_POINTS * 0.1) * 4;
+    
+    for (let i = 0; i < POINTS; i++) {
+      const noise = p.noise(i, POINTS * 0.1) * 4;
 
       const x1 = p.random(x + noise, x + width + noise);
       const y1 = p.random(y + noise, y + width + noise );
@@ -97,13 +94,14 @@ const makeArt = (p: p5) => {
     p.noLoop();
     p.noStroke();
     
-    points = createGrid(count).filter(() => p.randomGaussian() > 0.55);
+    points = createGrid(count).filter(() => p.randomGaussian() > 0.35);
     // points = createGrid(count);
   };
   
   p.draw = () => {
     const { width, height } = p;
     const margin = width * 0.075;
+    p.rectMode(p.CENTER);
     points.forEach((data, i) => {
 
       const { color, radius, position, rotation = 0 } = data;
@@ -116,6 +114,8 @@ const makeArt = (p: p5) => {
       p.translate(x, y);
       p.rotate(rotation);      
       rect(0, 0, radius, color);
+      // p.stroke(color);
+      // p.rect(0, 0, 50, 50);
 
       p.pop();
     });
