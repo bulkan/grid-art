@@ -18,7 +18,8 @@
     "nice-color-palettes": "^3.0.0",
     "p5": "1.1.9",
     "vue": "^2.6.11",
-    "vue-hot-reload-api": "^2.3.4"
+    "vue-hot-reload-api": "^2.3.4",
+    "vue-router": "^3.3.4"
   },
   "devDependencies": {
     "@types/jest": "^26.0.5",
