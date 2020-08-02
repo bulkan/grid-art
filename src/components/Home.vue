@@ -1,8 +1,12 @@
 <template>
-  <div class="container is-fluid">
+  <div class="container">
+    <div class="content is-medium">
+      <h1>p5.js art</h1>
+
+    </div>
     <div class="columns">
       <div class="column">
-        <div class="columns is-multiline">
+        <div class="columns is-multiline is-desktop">
           <div v-for="piece in artPieces" :key="piece.name" class="column is-one-third">
             <div class="card">
               <div class="card-image">
@@ -60,10 +64,12 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .container {
   height: 100vh;
-  margin-top: 100px;
+  margin-top: 10px;
 
   .columns {
-    margin: 0;
+    .is-desktop {
+      margin: 0;
+    }
   }
 
   .is-vcentered {
