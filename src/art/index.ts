@@ -59,7 +59,7 @@ const makeArt = (p: p5) => {
   };
 
   const rect = (x, y, width, color: p5.Color) => {
-    const MAX_POINTS = 4000;
+    const MAX_POINTS = 40;
     const POINTS = p.map(width, MIN_WIDTH, MAX_WIDTH, count, MAX_POINTS);
 
     color.setAlpha(p.map(POINTS, count, MAX_POINTS, 255, 1));

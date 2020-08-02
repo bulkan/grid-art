@@ -16,16 +16,22 @@
   "dependencies": {
     "delaunay-triangulate": "^1.1.6",
     "nice-color-palettes": "^3.0.0",
-    "p5": "1.1.9"
+    "p5": "1.1.9",
+    "vue": "^2.6.11",
+    "vue-hot-reload-api": "^2.3.4"
   },
   "devDependencies": {
     "@types/jest": "^26.0.5",
     "@types/p5": "^0.9.1",
+    "@vue/component-compiler-utils": "^3.2.0",
     "jest": "^26.1.0",
     "now": "^19.1.2",
     "parcel-bundler": "^1.12.4",
+    "pug": "^3.0.0",
+    "sass": "^1.26.10",
     "ts-jest": "^26.1.3",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "vue-template-compiler": "^2.6.11"
   },
   "browserslist": [
     "last 1 Chrome versions"

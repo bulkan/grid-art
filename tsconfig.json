@@ -4,7 +4,9 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "target": "es6",
+    "target": "es5",
+    "module": "es2015",
+    "noImplicitThis": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
