@@ -62,6 +62,10 @@ export default Vue.extend({
   height: 100vh;
   margin-top: 100px;
 
+  .columns {
+    margin: 0;
+  }
+
   .is-vcentered {
     height: 100vh;
   }
