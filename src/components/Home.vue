@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <div class="columns is-vcentered">
+  <div class="container is-fluid">
+    <div class="columns">
       <div class="column">
         <div class="columns is-multiline">
           <div v-for="piece in artPieces" :key="piece.name" class="column is-one-third">

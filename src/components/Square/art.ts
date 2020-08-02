@@ -29,7 +29,7 @@ const sketch = (p: p5) => {
   const count = 50;
   const MIN_WIDTH = 5;
   const MAX_WIDTH = 200;
-  const MAX_POINTS = 2000;
+  const MAX_POINTS = 4000;
 
   const palette = palettes[Math.floor(p.random() * palettes.length - 1)].splice(0, 2);
   // const color = p.color('black');
@@ -38,8 +38,8 @@ const sketch = (p: p5) => {
     const points = [];
     
     for (let x = 0; x < count; x++) {      
-      const color = p.color(palette[Math.floor(p.random() * palette.length)]);
       for (let y = 0; y < count; y++) {
+        const color = p.color(palette[Math.floor(p.random() * palette.length)]);
         const u = x / (count - 1);
         const v = y / (count - 1);
 
@@ -71,8 +71,7 @@ const sketch = (p: p5) => {
       const x1 = p.random(x + noise, x + width + noise);
       const y1 = p.random(y + noise, y + width + noise );
 
-      const d = p.map(width, MIN_WIDTH, MAX_WIDTH, 2, 1);
-      p.circle(x1, y1, d);
+      p.circle(x1, y1, 1);
     }
   }
 

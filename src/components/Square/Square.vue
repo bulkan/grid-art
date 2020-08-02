@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <div class="subtitle">
-      <router-link to="/" v-if="!loading">Go to back</router-link>
-    </div>
+    <!-- <div class="subtitle"> -->
+      <!-- <router-link to="/" v-if="!loading">Go to back</router-link> -->
+    <!-- </div> -->
     <div class="title" v-if="loading" id="loading">Generating...</div>
     <div id="square" ref="square"><div>
   </div>
