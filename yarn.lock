@@ -1336,6 +1336,11 @@ abab@^2.0.0, abab@^2.0.3:
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.3.tgz#623e2075e02eb2d3f2475e49f99c91846467907a"
   integrity sha512-tsFzPpcttalNjFBCFMqsKYQcWxxen1pgJR56by//QwvJc4/OUS3kPOOttx2tSIfjsylB0pYu7f5D3K1RCxUnUg==
 
+abs-svg-path@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/abs-svg-path/-/abs-svg-path-0.1.1.tgz#df601c8e8d2ba10d4a76d625e236a9a39c2723bf"
+  integrity sha1-32Acjo0roQ1KdtYl4japo5wnI78=
+
 acorn-globals@^4.3.0:
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/acorn-globals/-/acorn-globals-4.3.4.tgz#9fa1926addc11c97308c4e66d7add0d40c3272e7"
@@ -1372,6 +1377,11 @@ acorn@^7.1.1:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.3.1.tgz#85010754db53c3fbaf3b9ea3e083aa5c5d147ffd"
   integrity sha512-tLc0wSnatxAQHVHUapaHdz72pi9KUyHjq5KyHjGg9Y8Ifdc79pTh2XvI6I1/chZbnM7QtNKzh66ooDogPZSleA==
 
+adaptive-bezier-curve@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/adaptive-bezier-curve/-/adaptive-bezier-curve-1.0.3.tgz#477577abe87d7280d46ca41649f6c22646fe8227"
+  integrity sha1-R3V3q+h9coDUbKQWSfbCJkb+gic=
+
 ajv@^6.5.5:
   version "6.12.3"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.12.3.tgz#18c5af38a111ddeb4f2697bd78d68abc1cabd706"
@@ -1382,10 +1392,25 @@ ajv@^6.5.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
+almost-equal@0.0.0:
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/almost-equal/-/almost-equal-0.0.0.tgz#e7a5a6b3457b67c83ee0044f9a8d07637355f02d"
+  integrity sha1-56Wms0V7Z8g+4ARPmo0HY3NV8C0=
+
+almost-equal@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/almost-equal/-/almost-equal-1.1.0.tgz#f851c631138757994276aa2efbe8dfa3066cccdd"
+  integrity sha1-+FHGMROHV5lCdqou++jfowZszN0=
+
 alphanum-sort@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
+
+an-array@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/an-array/-/an-array-1.0.0.tgz#c125a5bb8257778e35f4b4f6aa9c7d0fa9e42665"
+  integrity sha1-wSWlu4JXd4419LT2qpx9D6nkJmU=
 
 ansi-escapes@^4.2.1:
   version "4.3.1"
@@ -1478,6 +1503,14 @@ arr-union@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/arr-union/-/arr-union-3.1.0.tgz#e39b09aea9def866a8f206e288af63919bae39c4"
   integrity sha1-45sJrqne+Gao8gbiiK9jkZuuOcQ=
+
+array-almost-equal@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/array-almost-equal/-/array-almost-equal-1.0.0.tgz#43c54ff435042e9cbfa4212ac49ada5fc7359fc5"
+  integrity sha1-Q8VP9DUELpy/pCEqxJraX8c1n8U=
+  dependencies:
+    almost-equal "0.0.0"
+    an-array "^1.0.0"
 
 array-equal@^1.0.0:
   version "1.0.0"
@@ -1990,6 +2023,31 @@ caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001093:
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001104.tgz#4e3d5b3b1dd3c3529f10cb7f519c62ba3e579f5d"
   integrity sha512-pkpCg7dmI/a7WcqM2yfdOiT4Xx5tzyoHAXWsX5/HxZ3TemwDZs0QXdqbE0UPLPVy/7BeK7693YfzfRYfu1YVpg==
 
+canvas-sketch-util@^1.10.0:
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/canvas-sketch-util/-/canvas-sketch-util-1.10.0.tgz#93d11aa378f8991ed0837d1bf8ea738132f41f1e"
+  integrity sha512-IiJWEQDBinl6KZVLYcdp79ZJXXKsS1HuDUoWtwWh0NJMVUA6jaM0pxcBRYiaujBXjQFPT91pl8L9iFFmma3+zA==
+  dependencies:
+    abs-svg-path "^0.1.1"
+    almost-equal "^1.1.0"
+    array-almost-equal "^1.0.0"
+    clone "^2.1.2"
+    color-luminance "^2.1.0"
+    convert-length "^1.0.1"
+    d3-path "^1.0.8"
+    defined "^1.0.0"
+    float-hsl2rgb "^1.0.2"
+    float-rgb2hsl "^1.0.1"
+    lineclip "^1.1.5"
+    normalize-svg-path "^1.0.1"
+    parse-color "^1.0.0"
+    parse-svg-path "^0.1.2"
+    primitive-quad "^2.0.0"
+    regl "^1.3.7"
+    seed-random "^2.2.0"
+    simplex-noise "^2.4.0"
+    svg-path-contours "^2.0.0"
+
 capture-exit@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/capture-exit/-/capture-exit-2.0.0.tgz#fb953bfaebeb781f62898239dabb426d08a509a4"
@@ -2140,7 +2198,7 @@ clone@^1.0.2:
   resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.4.tgz#da309cc263df15994c688ca902179ca3c7cd7c7e"
   integrity sha1-2jCcwmPfFZlMaIypAheco8fNfH4=
 
-clone@^2.1.1:
+clone@^2.1.1, clone@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/clone/-/clone-2.1.2.tgz#1b7f4b9f591f1e8f83670401600345a02887435f"
   integrity sha1-G39Ln1kfHo+DZwQBYANFoCiHQ18=
@@ -2185,6 +2243,16 @@ color-convert@^2.0.1:
   integrity sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==
   dependencies:
     color-name "~1.1.4"
+
+color-convert@~0.5.0:
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-0.5.3.tgz#bdb6c69ce660fadffe0b0007cc447e1b9f7282bd"
+  integrity sha1-vbbGnOZg+t/+CwAHzER+G59ygr0=
+
+color-luminance@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/color-luminance/-/color-luminance-2.1.0.tgz#58ff2ebd32b52d07f5378eefe5a0e79d6b318ad7"
+  integrity sha1-WP8uvTK1LQf1N47v5aDnnWsxitc=
 
 color-name@1.1.3:
   version "1.1.3"
@@ -2278,6 +2346,13 @@ constants-browserify@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/constants-browserify/-/constants-browserify-1.0.0.tgz#c20b96d8c617748aaf1c16021760cd27fcb8cb75"
   integrity sha1-wguW2MYXdIqvHBYCF2DNJ/y4y3U=
+
+convert-length@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/convert-length/-/convert-length-1.0.1.tgz#b66c7dc1f7d181916667c977f57be2f1eb17c1b7"
+  integrity sha512-w94Vge3sck6J1NHuA0du367/JTbj1zfjTapX7ixR2W+KlU4zb+NRTbou3x9nTpm5vlcXmjoaUJQpVN9pULCdxQ==
+  dependencies:
+    defined "^1.0.0"
 
 convert-source-map@^1.4.0, convert-source-map@^1.5.1, convert-source-map@^1.6.0, convert-source-map@^1.7.0:
   version "1.7.0"
@@ -2561,6 +2636,11 @@ cssstyle@^2.2.0:
   dependencies:
     cssom "~0.3.6"
 
+d3-path@^1.0.8:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/d3-path/-/d3-path-1.0.9.tgz#48c050bb1fe8c262493a8caf5524e3e9591701cf"
+  integrity sha512-VLaYcn81dtHVTjEHd8B+pbe9yHWpXKZUC87PzoFmsFrJqgFwDe/qxfp5MlfsfM1V5E/iVt0MmEbWQ7FVIXh/bg==
+
 dashdash@^1.12.0:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/dashdash/-/dashdash-1.14.1.tgz#853cfa0f7cbe2fed5de20326b8dd581035f6e2f0"
@@ -2685,6 +2765,11 @@ define-property@^2.0.2:
   dependencies:
     is-descriptor "^1.0.2"
     isobject "^3.0.1"
+
+defined@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/defined/-/defined-1.0.0.tgz#c98d9bcef75674188e110969151199e39b1fa693"
+  integrity sha1-yY2bzvdWdBiOEQlpFRGZ45sfppM=
 
 delayed-stream@~1.0.0:
   version "1.0.0"
@@ -3192,6 +3277,16 @@ find-up@^4.0.0, find-up@^4.1.0:
   dependencies:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
+
+float-hsl2rgb@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/float-hsl2rgb/-/float-hsl2rgb-1.0.2.tgz#ecf3509c40ac6567c96a204622b0c4c4bf43c8a1"
+  integrity sha1-7PNQnECsZWfJaiBGIrDExL9DyKE=
+
+float-rgb2hsl@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/float-rgb2hsl/-/float-rgb2hsl-1.0.1.tgz#8efeaa0fc726e53363a79bf3f636082055c10c0e"
+  integrity sha1-jv6qD8cm5TNjp5vz9jYIIFXBDA4=
 
 for-in@^1.0.2:
   version "1.0.2"
@@ -4607,6 +4702,11 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
+lineclip@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/lineclip/-/lineclip-1.1.5.tgz#2bf26067d94354feabf91e42768236db5616fd13"
+  integrity sha1-K/JgZ9lDVP6r+R5CdoI221YW/RM=
+
 lines-and-columns@^1.1.6:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
@@ -5033,6 +5133,18 @@ normalize-path@^3.0.0, normalize-path@~3.0.0:
   resolved "https://registry.yarnpkg.com/normalize-path/-/normalize-path-3.0.0.tgz#0dcd69ff23a1c9b11fd0978316644a0388216a65"
   integrity sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==
 
+normalize-svg-path@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/normalize-svg-path/-/normalize-svg-path-0.1.0.tgz#456360e60ece75fbef7b5d7e160480e7ffd16fe5"
+  integrity sha1-RWNg5g7Odfvve11+FgSA5//Rb+U=
+
+normalize-svg-path@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/normalize-svg-path/-/normalize-svg-path-1.0.1.tgz#6f729ad6b70bb4ca4eff2fe4b107489efe1d56fe"
+  integrity sha1-b3Ka1rcLtMpO/y/ksQdInv4dVv4=
+  dependencies:
+    svg-arc-to-cubic-bezier "^3.0.0"
+
 normalize-url@^3.0.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-3.3.0.tgz#b2e1c4dc4f7c6d57743df733a4f5978d18650559"
@@ -5355,6 +5467,13 @@ parse-asn1@^5.0.0, parse-asn1@^5.1.5:
     pbkdf2 "^3.0.3"
     safe-buffer "^5.1.1"
 
+parse-color@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/parse-color/-/parse-color-1.0.0.tgz#7b748b95a83f03f16a94f535e52d7f3d94658619"
+  integrity sha1-e3SLlag/A/FqlPU15S1/PZRlhhk=
+  dependencies:
+    color-convert "~0.5.0"
+
 parse-json@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/parse-json/-/parse-json-4.0.0.tgz#be35f5425be1f7f6c747184f98a788cb99477ee0"
@@ -5372,6 +5491,11 @@ parse-json@^5.0.0:
     error-ex "^1.3.1"
     json-parse-better-errors "^1.0.1"
     lines-and-columns "^1.1.6"
+
+parse-svg-path@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/parse-svg-path/-/parse-svg-path-0.1.2.tgz#7a7ec0d1eb06fa5325c7d3e009b859a09b5d49eb"
+  integrity sha1-en7A0esG+lMlx9PgCbhZoJtdSes=
 
 parse5@5.1.0:
   version "5.1.0"
@@ -5874,6 +5998,11 @@ pretty-format@^26.1.0:
     ansi-styles "^4.0.0"
     react-is "^16.12.0"
 
+primitive-quad@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/primitive-quad/-/primitive-quad-2.0.0.tgz#c20993e4f9600238926bb500e529053043ef8aeb"
+  integrity sha1-wgmT5PlgAjiSa7UA5SkFMEPvius=
+
 process-nextick-args@~2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.1.tgz#7820d9b16120cc55ca9ae7792680ae7dba6d7fe2"
@@ -6229,6 +6358,11 @@ regjsparser@^0.6.4:
   dependencies:
     jsesc "~0.5.0"
 
+regl@^1.3.7:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/regl/-/regl-1.6.1.tgz#6930172cda9b8fb65724abc0d4930d79333f5460"
+  integrity sha512-7Z9rmpEqmLNwC9kCYCyfyu47eWZaQWeNpwZfwz99QueXN8B/Ow40DB0N+OeUeM/yu9pZAB01+JgJ+XghGveVoA==
+
 remove-trailing-separator@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/remove-trailing-separator/-/remove-trailing-separator-1.1.0.tgz#c24bce2a283adad5bc3f58e0d48249b92379d8ef"
@@ -6445,6 +6579,11 @@ saxes@^5.0.0:
   dependencies:
     xmlchars "^2.2.0"
 
+seed-random@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/seed-random/-/seed-random-2.2.0.tgz#2a9b19e250a817099231a5b99a4daf80b7fbed54"
+  integrity sha1-KpsZ4lCoFwmSMaW5mk2vgLf77VQ=
+
 "semver@2 || 3 || 4 || 5", semver@^5.4.1, semver@^5.5.0:
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.7.1.tgz#a954f931aeba508d307bbf069eff0c01c96116f7"
@@ -6577,6 +6716,11 @@ simple-swizzle@^0.2.2:
   integrity sha1-pNprY1/8zMoz9w0Xy5JZLeleVXo=
   dependencies:
     is-arrayish "^0.3.1"
+
+simplex-noise@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/simplex-noise/-/simplex-noise-2.4.0.tgz#81b3458fb22dccc3bc8dd9a977c73797f86f523a"
+  integrity sha512-OjyDWm/QZjVbMrPxDVi9b2as+SeNn9EBXlrWVRlFW+TSyWMSXouDryXkQN0vf5YP+QZKobrmkvx1eQYPLtuqfw==
 
 sisteransi@^1.0.4:
   version "1.0.5"
@@ -6918,6 +7062,21 @@ supports-hyperlinks@^2.0.0:
   dependencies:
     has-flag "^4.0.0"
     supports-color "^7.0.0"
+
+svg-arc-to-cubic-bezier@^3.0.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/svg-arc-to-cubic-bezier/-/svg-arc-to-cubic-bezier-3.2.0.tgz#390c450035ae1c4a0104d90650304c3bc814abe6"
+  integrity sha512-djbJ/vZKZO+gPoSDThGNpKDO+o+bAeA4XQKovvkNCqnIS2t+S4qnLAGQhyyrulhCFRl1WWzAp0wUDV8PpTVU3g==
+
+svg-path-contours@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/svg-path-contours/-/svg-path-contours-2.0.0.tgz#c76a129429db05eb6d7b61e4d1c58d114a8938a2"
+  integrity sha1-x2oSlCnbBette2Hk0cWNEUqJOKI=
+  dependencies:
+    abs-svg-path "^0.1.1"
+    adaptive-bezier-curve "^1.0.3"
+    normalize-svg-path "^0.1.0"
+    vec2-copy "^1.0.0"
 
 svgo@^1.0.0, svgo@^1.3.2:
   version "1.3.2"
@@ -7375,6 +7534,11 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
+
+vec2-copy@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/vec2-copy/-/vec2-copy-1.0.0.tgz#c6eec1d8dad54625194e5f71f8433b62d2f20a7a"
+  integrity sha1-xu7B2NrVRiUZTl9x+EM7YtLyCno=
 
 vendors@^1.0.0:
   version "1.0.4"

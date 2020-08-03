@@ -1,11 +1,12 @@
 import p5 from "p5";
 import palettes from 'nice-color-palettes/200.json';
+import random from 'canvas-sketch-util/random';
 import { halton as Halton } from 'low-discrepancy-sequence';
 
 const sketch = (p: p5) => {
   let points;
-  const count = 30;
-  const MAX_POINTS = 3500;
+  const count = 21;
+  const MAX_POINTS = 5000;
   const MIN_POINTS = MAX_POINTS / 10;
   const MIN_WIDTH = 21;
   const MAX_WIDTH = 105;
@@ -29,7 +30,7 @@ const sketch = (p: p5) => {
         const width = Math.abs(p.random(MIN_WIDTH, MAX_WIDTH)); 
         const rotation = p.map(p.noise(u, v), 0, 1, 0, p.TWO_PI);
 
-        if(p.randomGaussian() > 0.25) {
+        if((p.random()) > 0.2) {
           points.push({
             color,
             rotation,
@@ -46,7 +47,7 @@ const sketch = (p: p5) => {
   const rect = (width: number, color: p5.Color) => {
     const POINTS = p.map(width, MIN_WIDTH, MAX_WIDTH, MIN_POINTS, MAX_POINTS);
 
-    color.setAlpha(p.map(POINTS, MIN_POINTS, MAX_POINTS, 10, 200));
+    color.setAlpha(p.map(POINTS, MIN_POINTS, MAX_POINTS, 150, 100));
     p.fill(color);
     
     for (let i = 0; i < POINTS; i++) {
@@ -55,7 +56,7 @@ const sketch = (p: p5) => {
       const x1 = x * width;
       const y1 = y * width;
 
-      p.circle(x1, y1, 2);
+      p.circle(x1, y1, 1);
     }
   }
 
@@ -67,24 +68,22 @@ const sketch = (p: p5) => {
       }
     };
 
-    const seed =  p.random() * 1000; 
-
-    // interesting seeds
-      // 527.5082494902459
-      // 74.0410697292676;
-      // 42.545741789881994
+    const seed =  random.getRandomSeed();
     
+    // interesting seeds
+    // 527.5082494902459
+    // 74.0410697292676;
+    // 42.545741789881994
+    
+    random.setSeed(seed);
     p.randomSeed(seed);
     p.noiseSeed(seed);
 
-    const {windowWidth, windowHeight} = p;
-
     const width = 750;
 
-    p.createCanvas(width, width);
-    // p.background("white");
     p.noLoop();
     p.noStroke();
+    p.createCanvas(width, width);
     backgroundColor.setAlpha(100);
     p.background(backgroundColor);
     
@@ -95,8 +94,6 @@ const sketch = (p: p5) => {
       seed,
       palette,
       paletteIndex,
-      windowHeight,
-      windowWidth,
       width,
       pointsLegth: points.length,
       backgroundColor: backgroundColor.toString(),
