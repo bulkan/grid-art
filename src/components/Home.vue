@@ -1,9 +1,11 @@
 <template>
   <div class="container">
     <div class="content is-medium">
-      <h1>p5.js art</h1>
-
+      <h1>grid art</h1>
+      <p>Generative art based using a grid</p>
+      <p>Pressing cmd+s will save the canvas</p>
     </div>
+
     <div class="columns">
       <div class="column">
         <div class="columns is-multiline is-desktop">
@@ -11,15 +13,18 @@
             <div class="card">
               <div class="card-image">
                 <figure class="image is-1by1">
-                  <img :src="piece.thumbnail" alt="Placeholder image" />
+                  <router-link :to="{ name: piece.name }" >
+                    <img :src="piece.thumbnail" alt="Placeholder image" />
+                  </router-link>
                 </figure>
               </div>
 
               <div class="card-content">
                 <div class="content">
                   <p class="title">
-                    <router-link to="/squares">{{piece.name}}</router-link>
+                    <router-link :to="{ name: piece.name }" >{{piece.name}}</router-link>
                   </p>
+                  <p>{{piece.blurb}}</p>
                 </div>
               </div>
             </div>
@@ -34,13 +39,14 @@
 import Vue from "vue";
 import squaresPng from "./screenshots/squares.png";
 
-interface ArtPieces {
+interface ArtPiece {
   name: string;
   thumbnail: string;
+  blurb?: string;
 }
 
 interface Data {
-  artPieces: ArtPieces[];
+  artPieces: ArtPiece[];
 }
 
 export default Vue.extend({
@@ -49,10 +55,12 @@ export default Vue.extend({
       artPieces: [
         {
           name: "squares",
+          blurb: "Use dots to draw squares",
           thumbnail: squaresPng,
         },
         {
           name: "lines",
+          blurb: "Toss a coin draw a diagonal",
           thumbnail: "https://via.placeholder.com/200",
         },
       ],

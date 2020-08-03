@@ -7,8 +7,8 @@ import Square from './components/Square/Square.vue';
 import 'buefy/dist/buefy.css'
 
 const routes = [
-  { path: '/squares', component: Square},
-  { path: '/', component: Home },
+  { name: 'squares', path: '/squares', component: Square},
+  { name: 'home', path: '/', component: Home },
 ];
 
 Vue.use(Buefy);

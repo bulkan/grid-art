@@ -1,38 +1,20 @@
 import p5 from "p5";
-import palettes from 'nice-color-palettes/100.json';
-
-function fitSquares(width: number, height: number, n): number {
-  let sx = 0
-  let sy = 0;
-
-  const px = Math.ceil(Math.sqrt((n * width) / height));
-
-  if (Math.floor((px * height) / width) * px < n) {
-    sx = height / Math.ceil((px * height) / width);
-  } else {
-    sx = width / px;
-  }
-
-  const py = Math.ceil(Math.sqrt((n * height) / width));
-
-  if (Math.floor((py * width) / height) * py < n) {
-    sy = width / Math.ceil((width * py) / height);
-  } else {
-    sy = height / py;
-  }
-
-  return Math.max(sx, sy);
-}
+import palettes from 'nice-color-palettes/200.json';
+import { halton as Halton } from 'low-discrepancy-sequence';
+import { fitSquares } from './fitSquares';
 
 const sketch = (p: p5) => {
   let points;
-  const count = 50;
-  const MIN_WIDTH = 5;
-  const MAX_WIDTH = 200;
-  const MAX_POINTS = 4000;
+  const count = 40;
+  const MAX_POINTS = 5000;
+  const MIN_POINTS = MAX_POINTS / 10;
+  const MIN_WIDTH = 21;
+  const MAX_WIDTH = 105;
 
-  const palette = palettes[Math.floor(p.random() * palettes.length - 1)].splice(0, 2);
-  // const color = p.color('black');
+  const haltonSequence = new Halton();
+
+  const palette = p.shuffle(palettes[Math.floor(p.random() * palettes.length - 1)]);
+  const backgroundColor = p.color(palette.pop());
   
   const createGrid = (count) => {
     const points = [];
@@ -44,15 +26,17 @@ const sketch = (p: p5) => {
         const v = y / (count - 1);
 
                      //p.map(p.noise(u, v), 0, 1, MIN_WIDTH, MAX_WIDTH);
-        const radius = p.randomGaussian() * MAX_WIDTH; 
+        const radius = Math.abs(p.random(MIN_WIDTH, MAX_WIDTH)); 
         const rotation = p.map(p.noise(u, v), 0, 1, 0, p.TWO_PI);
 
-        points.push({
-          color,
-          rotation,
-          radius,
-          position: { u, v },
-        });
+        if(p.randomGaussian() > 0.35) {
+          points.push({
+            color,
+            rotation,
+            radius,
+            position: { u, v },
+          });
+        }
       }
     }
 
@@ -60,16 +44,21 @@ const sketch = (p: p5) => {
   };
 
   const rect = (x, y, width, color: p5.Color) => {
-    const POINTS = p.map(width, MIN_WIDTH, MAX_WIDTH, count, MAX_POINTS);
+    const POINTS = p.map(width, MIN_WIDTH, MAX_WIDTH, MIN_POINTS, MAX_POINTS);
 
-    color.setAlpha(p.map(POINTS, count, MAX_POINTS, 255, 1));
+    color.setAlpha(p.map(POINTS, MIN_POINTS, MAX_POINTS, 255, 50));
     p.fill(color);
     
     for (let i = 0; i < POINTS; i++) {
-      const noise = p.noise(i, POINTS * 0.1) * 2;
+      // const noise = p.noise(i, POINTS * 0.1) * 2;
 
-      const x1 = p.random(x + noise, x + width + noise);
-      const y1 = p.random(y + noise, y + width + noise );
+      const [x, y] = haltonSequence.getNext();
+
+      // const x1 = p.random(x + noise, x + width + noise);
+      // const y1 = p.random(y + noise, y + width + noise );
+
+      const x1 = x * width;
+      const y1 = y * width;
 
       p.circle(x1, y1, 1);
     }
@@ -93,18 +82,30 @@ const sketch = (p: p5) => {
     
     p.randomSeed(seed);
     p.noiseSeed(seed);
-    
-    console.table({ seed, palette });
 
     const width = fitSquares(p.windowWidth - 10, p.windowHeight - 10, 1);
     
     p.createCanvas(width, width);
-    p.background("white");
+    // p.background("white");
     p.noLoop();
     p.noStroke();
+    backgroundColor.setAlpha(100);
+    p.background(backgroundColor);
     
-    points = createGrid(count).filter(() => p.randomGaussian() > 0.55);
-    // points = createGrid(count);
+    // points = createGrid(count).filter(() => ;
+    points = createGrid(count);
+
+        
+    console.table({ 
+      seed,
+      palette,
+      pointsLegth: points.length,
+      backgroundColor,
+      MAX_POINTS,
+      MAX_WIDTH,
+      MIN_WIDTH
+    });
+
   };
   
   p.draw = () => {

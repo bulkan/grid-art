@@ -4658,6 +4658,11 @@ loose-envify@^1.0.0:
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
 
+low-discrepancy-sequence@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/low-discrepancy-sequence/-/low-discrepancy-sequence-0.2.1.tgz#47130ac928046fc559c5dd1faa5f1c1f0b4bcd17"
+  integrity sha512-mAViN4y0gMsF2TXMHnM3teoCtoKUlfW/VavqY8zGcrjBrzy9/clZAKGucxYTLoitD+uCprfh7+rfTKRzb8v0bg==
+
 lowercase-keys@^1.0.0, lowercase-keys@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/lowercase-keys/-/lowercase-keys-1.0.1.tgz#6f9e30b47084d971a7c820ff15a6c5167b74c26f"
