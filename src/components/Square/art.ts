@@ -13,7 +13,7 @@ const sketch = (p: p5) => {
 
   const haltonSequence = new Halton();
 
-  const paletteIndex = 39;//Math.floor(p.random() * palettes.length - 1;
+  const paletteIndex = Math.floor(p.random() * palettes.length - 1);
   const palette = p.shuffle(palettes[paletteIndex]);
   const backgroundColor = p.color(palette.pop());
   
