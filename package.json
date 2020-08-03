@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": "https://github.com/bulkan/grid-art",
   "scripts": {
-    "dev": "parcel serve index.html",
+    "dev": "parcel serve index.html --log-level 4",
     "build": "parcel build index.html",
     "deploy": "now deploy --prod",
     "test": "jest src",
