@@ -28,7 +28,7 @@ const sketch = (p: p5) => {
   p.noiseSeed(seed);
 
   // Interesting palettes = 62, 108
-  const paletteIndex = 62; // Math.floor(p.random() * palettes.length - 1);
+  const paletteIndex = Math.floor(p.random() * palettes.length - 1);
   const palette = p.shuffle(palettes[paletteIndex]);
   const backgroundColor = p.color(palette.pop());
 
