@@ -1,17 +1,18 @@
 import p5 from "p5";
 import palettes from 'nice-color-palettes/200.json';
 import { halton as Halton } from 'low-discrepancy-sequence';
+import { fitSquares } from "./fitSquares";
 
 const sketch = (p: p5) => {
   let points;
-  let pg;
 
   const count = 51;
-  const MAX_POINTS = 2000;
+  const MAX_POINTS = 10000;
   const MIN_POINTS = 1000;
   const MIN_WIDTH = 21;
   const MAX_WIDTH = 84;
-  const CANVAS_WIDTH = 600;
+  // const CANVAS_WIDTH = 750; 
+  const CANVAS_WIDTH = fitSquares(p.windowWidth, p.windowHeight, 1) - 100; 
   const haltonSequence = new Halton();
   const seed = Math.floor(Math.random() * 1000000);
 
@@ -27,7 +28,7 @@ const sketch = (p: p5) => {
   p.noiseSeed(seed);
 
   // Interesting palettes = 62, 108
-  const paletteIndex = Math.floor(p.random() * palettes.length - 1);
+  const paletteIndex = 62; // Math.floor(p.random() * palettes.length - 1);
   const palette = p.shuffle(palettes[paletteIndex]);
   const backgroundColor = p.color(palette.pop());
 
@@ -62,12 +63,12 @@ const sketch = (p: p5) => {
     return points;
   };
 
-  const rect = (width: number, color: p5.Color, pg: p5.Graphics) => {
+  const rect = (width: number, color: p5.Color) => {
     const POINTS = p.map(width, MIN_WIDTH, MAX_WIDTH, MIN_POINTS, MAX_POINTS);
 
-    const alpha = p.map(POINTS, MIN_POINTS, MAX_POINTS, 175, 75);
+    const alpha = p.map(POINTS, MIN_POINTS, MAX_POINTS, 100, 10);
     color.setAlpha(alpha);
-    pg.fill(color);
+    p.fill(color);
     
     for (let i = 0; i < POINTS; i++) {
       const [x, y] = haltonSequence.getNext();
@@ -75,7 +76,7 @@ const sketch = (p: p5) => {
       const x1 = x * width;
       const y1 = y * width;
 
-      pg.circle(x1, y1, 1);
+      p.circle(x1, y1, 1);
     }
   }
 
@@ -88,17 +89,10 @@ const sketch = (p: p5) => {
     };
     
     p.createCanvas(CANVAS_WIDTH, CANVAS_WIDTH);
-    pg = p.createGraphics(CANVAS_WIDTH, CANVAS_WIDTH)
-
-    backgroundColor.setAlpha(128);
     p.background(backgroundColor);
     p.rectMode(p.CENTER);
-    p.noLoop();
     p.noStroke();
-
-    pg.background(backgroundColor);
-    pg.noStroke();
-    pg.rectMode(p.CENTER);
+    backgroundColor.setAlpha(128);
 
     points = createGrid(count);
         
@@ -117,27 +111,30 @@ const sketch = (p: p5) => {
   };
   
   p.draw = () => {
-    console.time('draw');
-    const margin = p.width * 0.075 - MAX_WIDTH;
+    const margin = p.width * 0.075;
 
-    points.forEach(data => {
-      
-      const { width, color, position, rotation = 0 } = data;
-      
-      const x = p.abs(p.lerp(margin, p.width - margin, position.u));
-      const y = p.abs(p.lerp(margin, p.height - margin, position.v));
+    const data = points.pop();
 
-      pg.translate(x, y);
-      pg.rotate(rotation);
-      
-      rect(width, color, pg);
-      
-      pg.resetMatrix();
-      p.image(pg, 0, 0, CANVAS_WIDTH, CANVAS_WIDTH)
-    });
+    if(!data) {
+      p.noLoop()
+      return;
+    }
 
-    p.image(pg, 0, 0, CANVAS_WIDTH, CANVAS_WIDTH)
-    console.timeEnd('draw');
+    const { width, color, position, rotation = 0 } = data;
+    const x = p.abs(p.lerp(margin, p.width - margin, position.u));
+    const y = p.abs(p.lerp(margin, p.height - margin, position.v));
+
+    p.translate(x, y);
+    p.rotate(rotation);
+    
+    rect(width, color);
+    
+    p.resetMatrix();
+
+    if (points.length === 0) {
+      console.log('done drawing');
+      p.noLoop();
+    }
   };
 };
 
