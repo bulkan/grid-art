@@ -48,8 +48,8 @@ export default Vue.extend({
       return this.$route.query.pid;
     },
 
-    q() {
-      return this.$route.query.q;
+    force() {
+      return this.$route.query.force || null;
     }
   },
 
@@ -59,7 +59,7 @@ export default Vue.extend({
         node: this.$refs.square
       };
 
-      if(!this.q) {
+      if(!this.force) {
         makeArtProps = {
           ...makeArtProps,
           seed: this.seed,
@@ -67,9 +67,17 @@ export default Vue.extend({
         };
       }
 
-      const { seed, paletteId, backgroundColor} = makeArt(makeArtProps);
+      const { seed, paletteId: pid, backgroundColor} = makeArt(makeArtProps);
 
-      console.log(seed, paletteId, backgroundColor);
+      this.$router.replace({
+        path: '/squares',
+        query: {
+          force: this.force,
+          seed,
+          pid
+        }
+      }).catch(() => {});
+
       this.loading = false;
     }, 100);
   }
