@@ -14,7 +14,7 @@ const makeSketch = (seed: any, paletteId: number) => {
       // 527.5082494902459
       // 74.0410697292676;
       // 42.545741789881994
-  const SEED = seed || Math.floor(Math.random() * 1000000);
+  const SEED = parseInt(seed) || Math.floor(Math.random() * 1000000);
 
   random.setSeed(SEED);
 
@@ -25,7 +25,7 @@ const makeSketch = (seed: any, paletteId: number) => {
     paletteIndex = Math.floor(random.valueNonZero() * palettes.length);
   }
   
-  const palette = random.shuffle(palettes[paletteIndex]);
+  const palette = palettes[paletteIndex];
   const backgroundColorString = palette.pop();
 
   palette.pop();
