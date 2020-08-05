@@ -4,19 +4,17 @@ import { halton as Halton } from 'low-discrepancy-sequence';
 import { fitSquares } from "./fitSquares";
 
 const sketch = (p: p5) => {
-  let points;
-
-  const count = 51;
-  const MAX_POINTS = 10000;
-  const MIN_POINTS = 1000;
-  const MIN_WIDTH = 21;
-  const MAX_WIDTH = 84;
-  // const CANVAS_WIDTH = 750; 
-  const CANVAS_WIDTH = fitSquares(p.windowWidth, p.windowHeight, 1) - 100; 
-  const haltonSequence = new Halton();
-  const seed = Math.floor(Math.random() * 1000000);
-
+  const CANVAS_WIDTH = fitSquares(p.windowWidth, p.windowHeight, 1) - p.windowWidth / 15;
+  const GRID_COUNT = CANVAS_WIDTH * 0.15;
+  const MAX_POINTS = 4000;
+  const MIN_POINTS = 2000;
+  const MIN_WIDTH = CANVAS_WIDTH * 0.01;
+  const MAX_WIDTH = CANVAS_WIDTH * 0.15;
+  const MARGIN = MAX_WIDTH;
+  const SEED = 955971; //Math.floor(Math.random() * 1000000);
+  
   // interesting seeds
+    // 823050
     // 101435
     // 699087
     // 15965086346200000
@@ -24,31 +22,36 @@ const sketch = (p: p5) => {
     // 74.0410697292676;
     // 42.545741789881994
   
-  p.randomSeed(seed);
-  p.noiseSeed(seed);
+  p.randomSeed(SEED);
+  p.noiseSeed(SEED);
 
-  // Interesting palettes = 62, 108
-  const paletteIndex = Math.floor(p.random() * palettes.length - 1);
+  let points;
+  const haltonSequence = new Halton();
+
+  // Interesting palettes = 41, 62, 108
+  const paletteIndex = 41; //Math.floor(p.random() * palettes.length - 1);
   const palette = p.shuffle(palettes[paletteIndex]);
   const backgroundColor = p.color(palette.pop());
 
   palette.pop();
-  
-  const createGrid = (count) => {
+  palette.pop();
+
+
+  const createGrid = () => {
     console.time('createGrid');
     const points = [];
     
-    for (let x = 0; x < count; x++) {      
-      for (let y = 0; y < count; y++) {
+    for (let x = 0; x < GRID_COUNT; x++) {      
+      for (let y = 0; y < GRID_COUNT; y++) {
         const color = p.color(palette[Math.floor(p.random() * palette.length)]);
-        const u = x / (count - 1);
-        const v = y / (count - 1);
+        const u = x / (GRID_COUNT - 1);
+        const v = y / (GRID_COUNT - 1);
 
                      //p.map(p.noise(u, v), 0, 1, MIN_WIDTH, MAX_WIDTH);
         const width = Math.abs(p.random(MIN_WIDTH, MAX_WIDTH)); 
         const rotation = p.map(p.noise(u, v), 0, 1, 0, p.TWO_PI);
 
-        if((p.random()) > 0.55) {
+        if((p.random()) > 0.75) {
           points.push({
             color,
             rotation,
@@ -83,7 +86,7 @@ const sketch = (p: p5) => {
   p.setup = () => {
     document.onkeydown = function(e) {
       if (e.metaKey && e.keyCode === 83) {
-        p.saveCanvas(`squares-${Date.now()}`, "png");
+        p.saveCanvas(`squares-${SEED}-${paletteIndex}`, "png");
         return false;
       }
     };
@@ -94,14 +97,16 @@ const sketch = (p: p5) => {
     p.noStroke();
     backgroundColor.setAlpha(128);
 
-    points = createGrid(count);
+    points = createGrid();
         
     console.table({ 
-      seed,
       palette,
       paletteIndex,
       pointsLegth: points.length,
       backgroundColor: backgroundColor.toString(),
+      MARGIN,
+      GRID_COUNT,
+      SEED,
       MAX_POINTS,
       MAX_WIDTH,
       MIN_WIDTH,
@@ -111,8 +116,6 @@ const sketch = (p: p5) => {
   };
   
   p.draw = () => {
-    const margin = p.width * 0.075;
-
     const data = points.pop();
 
     if(!data) {
@@ -121,8 +124,8 @@ const sketch = (p: p5) => {
     }
 
     const { width, color, position, rotation = 0 } = data;
-    const x = p.abs(p.lerp(margin, p.width - margin, position.u));
-    const y = p.abs(p.lerp(margin, p.height - margin, position.v));
+    const x = p.abs(p.lerp(MARGIN, p.width - MARGIN, position.u));
+    const y = p.abs(p.lerp(MARGIN, p.height - MARGIN, position.v));
 
     p.translate(x, y);
     p.rotate(rotation);
