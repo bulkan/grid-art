@@ -19,9 +19,12 @@ const makeSketch = (seed: any, paletteId: number) => {
   random.setSeed(SEED);
 
   // Interesting palettes = 41, 62, 108
-  const paletteIndex = paletteId || Math.floor(random.valueNonZero() * palettes.length);
-
-
+  let paletteIndex = paletteId || Math.floor(random.valueNonZero() * palettes.length);
+  
+  if (paletteIndex >= palettes.length) {
+    paletteIndex = Math.floor(random.valueNonZero() * palettes.length);
+  }
+  
   const palette = random.shuffle(palettes[paletteIndex]);
   const backgroundColorString = palette.pop();
 
