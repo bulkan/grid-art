@@ -39,9 +39,37 @@ export default Vue.extend({
       loading: true
     }
   },
+  computed: {
+    seed() {
+      return this.$route.query.seed;
+    },
+
+    paletteId() {
+      return this.$route.query.pid;
+    },
+
+    q() {
+      return this.$route.query.q;
+    }
+  },
+
   mounted() {
     setTimeout(() => {
-      const { seed, paletteId } = makeArt({ node: this.$refs.square });
+      let makeArtProps = {
+        node: this.$refs.square
+      };
+
+      if(!this.q) {
+        makeArtProps = {
+          ...makeArtProps,
+          seed: this.seed,
+          paletteId: this.paletteId,
+        };
+      }
+
+      const { seed, paletteId } = makeArt(makeArtProps);
+
+      console.log(seed, paletteId);
       this.loading = false;
     }, 100);
   }
