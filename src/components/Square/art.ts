@@ -33,7 +33,7 @@ const makeSketch = (seed: any, paletteId: number) => {
 
   const sketch = (p: p5) => {
     const CANVAS_WIDTH = fitSquares(p.windowWidth, p.windowHeight, 1) - p.windowWidth / 15;
-    const GRID_COUNT = CANVAS_WIDTH * 0.09;
+    const GRID_COUNT = CANVAS_WIDTH * 0.1;
     const MAX_POINTS = 4000;
     const MIN_POINTS = 2000;
     const MIN_WIDTH = CANVAS_WIDTH * 0.01;
@@ -46,7 +46,6 @@ const makeSketch = (seed: any, paletteId: number) => {
 
     let points;
     const haltonSequence = new Halton();
-
     const backgroundColor = p.color(backgroundColorString);
 
     const createGrid = () => {
@@ -63,7 +62,7 @@ const makeSketch = (seed: any, paletteId: number) => {
           const width = Math.abs(p.random(MIN_WIDTH, MAX_WIDTH)); 
           const rotation = p.map(p.noise(u, v), 0, 1, 0, p.TWO_PI);
 
-          if((p.random()) > 0.95) {
+          if((p.random()) > 0.85) {
             points.push({
               color,
               rotation,
