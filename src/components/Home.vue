@@ -1,8 +1,9 @@
 <template>
   <div class="container">
     <div class="content is-medium">
-      <h1>grid art</h1>
-      <p>Generative art based using a grid</p>
+      <h1>Generative Art</h1>
+      <p>Reloading an artwork will create a new seed for random. It will then randomly select a palette from <a href="https://github.com/mattdesl/nice-color-palettes/blob/master/200.json">nice-color-palettes.</a></p>
+      <p>These paramaters are set in the url. You can remove <span class="is-italic has-text-weight-bold">force=true</span> as a parameter to regenerate the current art.</p>
       <p>Pressing cmd+s will save the canvas</p>
     </div>
 
