@@ -41,7 +41,7 @@ export default Vue.extend({
   },
   mounted() {
     setTimeout(() => {
-      makeArt(this.$refs.square);
+      const { seed, paletteId } = makeArt({ node: this.$refs.square });
       this.loading = false;
     }, 100);
   }
