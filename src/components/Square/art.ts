@@ -21,6 +21,13 @@ const makeSketch = (seed: any, paletteId: number) => {
   // Interesting palettes = 41, 62, 108
   const paletteIndex = paletteId || Math.floor(random.valueNonZero() * palettes.length);
 
+
+  const palette = random.shuffle(palettes[paletteIndex]);
+  const backgroundColorString = palette.pop();
+
+  palette.pop();
+  palette.pop();
+
   const sketch = (p: p5) => {
     const CANVAS_WIDTH = fitSquares(p.windowWidth, p.windowHeight, 1) - p.windowWidth / 15;
     const GRID_COUNT = CANVAS_WIDTH * 0.09;
@@ -37,11 +44,7 @@ const makeSketch = (seed: any, paletteId: number) => {
     let points;
     const haltonSequence = new Halton();
 
-    const palette = p.shuffle(palettes[paletteIndex]);
-    const backgroundColor = p.color(palette.pop());
-
-    palette.pop();
-    palette.pop();
+    const backgroundColor = p.color(backgroundColorString);
 
     const createGrid = () => {
       console.time('createGrid');
@@ -103,7 +106,7 @@ const makeSketch = (seed: any, paletteId: number) => {
       p.background(backgroundColor);
       p.rectMode(p.CENTER);
       p.noStroke();
-      backgroundColor.setAlpha(128);
+      // backgroundColor.setAlpha(128);
 
       points = createGrid();
           
@@ -149,7 +152,7 @@ const makeSketch = (seed: any, paletteId: number) => {
     };
   };
 
-  return { sketch, paletteIndex, SEED };
+  return { sketch, paletteIndex, SEED, backgroundColorString };
 };
 
 interface IMakeArt {
@@ -159,9 +162,9 @@ interface IMakeArt {
 }
 
 export const makeArt = ( {seed, paletteId, node}: IMakeArt) => {
-  const { sketch, paletteIndex, SEED } = makeSketch(seed, paletteId);
+  const { sketch, paletteIndex, SEED, backgroundColorString: backgroundColor } = makeSketch(seed, paletteId);
 
   new p5(sketch, node);
 
-  return { paletteId: paletteIndex, seed: SEED};
+  return { paletteId: paletteIndex, seed: SEED, backgroundColor};
 };

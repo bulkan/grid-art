@@ -1,8 +1,9 @@
 <template>
   <div class="container">
-    <!-- <div class="subtitle"> -->
-      <!-- <router-link to="/" v-if="!loading">Go to back</router-link> -->
-    <!-- </div> -->
+    <!-- <div class="subtitle">
+      <router-link to="/" v-if="!loading">Go to back</router-link>
+    </div> -->
+    <!-- <p>{{ backgroundColor }}</p> -->
     <div class="title" v-if="loading" id="loading">Generating...</div>
     <div id="square" ref="square"><div>
   </div>
@@ -36,21 +37,25 @@ import { makeArt } from './art';
 export default Vue.extend({
   data() {
     return {
-      loading: true
+      loading: true,
+      backgroundColor: 'white'
     }
   },
   computed: {
     seed() {
       return this.$route.query.seed;
     },
-
     paletteId() {
       return this.$route.query.pid;
     },
 
     force() {
-      return this.$route.query.force || null;
+      return this.$route.query.force;
     }
+  },
+
+  destroyed() {
+    document.body.bgColor = 'white';
   },
 
   mounted() {
@@ -69,14 +74,21 @@ export default Vue.extend({
 
       const { seed, paletteId: pid, backgroundColor} = makeArt(makeArtProps);
 
+      const query = {
+        seed,
+        pid
+      };
+
+      if(this.force) {
+        query.force = true;
+      }
+
       this.$router.replace({
         path: '/squares',
-        query: {
-          force: this.force,
-          seed,
-          pid
-        }
+        query
       }).catch(() => {});
+
+      document.body.bgColor = backgroundColor;
 
       this.loading = false;
     }, 100);

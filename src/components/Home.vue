@@ -13,7 +13,7 @@
             <div class="card">
               <div class="card-image">
                 <figure class="image is-1by1">
-                  <router-link :to="{ name: piece.name }" >
+                  <router-link :to="{ name: piece.name, query: { force: true } }" >
                     <img :src="piece.thumbnail" alt="Placeholder image" />
                   </router-link>
                 </figure>
