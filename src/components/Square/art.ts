@@ -1,12 +1,12 @@
 import p5 from "p5";
 import palettes from 'nice-color-palettes/200.json';
+import random from 'canvas-sketch-util/random';
 import { halton as Halton } from 'low-discrepancy-sequence';
 import { fitSquares } from "./fitSquares";
 
-
 const makeSketch = (seed: any, paletteId: number) => {
-
   // interesting seeds
+      // 955971
       // 823050
       // 101435
       // 699087
@@ -14,10 +14,12 @@ const makeSketch = (seed: any, paletteId: number) => {
       // 527.5082494902459
       // 74.0410697292676;
       // 42.545741789881994
-  const SEED = seed || 955971; //Math.floor(Math.random() * 1000000);
+  const SEED = seed || Math.floor(Math.random() * 1000000);
+
+  random.setSeed(SEED);
 
   // Interesting palettes = 41, 62, 108
-  const paletteIndex = paletteId || 41; //Math.floor(p.random() * palettes.length - 1);
+  const paletteIndex = paletteId || Math.floor(random.valueNonZero() * palettes.length);
 
   const sketch = (p: p5) => {
     const CANVAS_WIDTH = fitSquares(p.windowWidth, p.windowHeight, 1) - p.windowWidth / 15;
@@ -25,7 +27,8 @@ const makeSketch = (seed: any, paletteId: number) => {
     const MAX_POINTS = 4000;
     const MIN_POINTS = 2000;
     const MIN_WIDTH = CANVAS_WIDTH * 0.01;
-    const MAX_WIDTH = CANVAS_WIDTH * 0.15;
+    // const MAX_WIDTH = CANVAS_WIDTH * 0.15;
+    const MAX_WIDTH = MIN_WIDTH * 10;
     const MARGIN = MAX_WIDTH;
     
     p.randomSeed(SEED);
@@ -54,7 +57,7 @@ const makeSketch = (seed: any, paletteId: number) => {
           const width = Math.abs(p.random(MIN_WIDTH, MAX_WIDTH)); 
           const rotation = p.map(p.noise(u, v), 0, 1, 0, p.TWO_PI);
 
-          if((p.random()) > 0.75) {
+          if((p.random()) > 0.95) {
             points.push({
               color,
               rotation,
@@ -69,15 +72,17 @@ const makeSketch = (seed: any, paletteId: number) => {
       return points;
     };
 
-    const rect = (width: number, color: p5.Color) => {
+    const stiple = (width: number, color: p5.Color) => {
       const POINTS = p.map(width, MIN_WIDTH, MAX_WIDTH, MIN_POINTS, MAX_POINTS);
 
-      const alpha = p.map(POINTS, MIN_POINTS, MAX_POINTS, 100, 10);
-      color.setAlpha(alpha);
-      p.fill(color);
-      
+      // const alpha = p.map(POINTS, MIN_POINTS, MAX_POINTS, 100, 10);
+
       for (let i = 0; i < POINTS; i++) {
         const [x, y] = haltonSequence.getNext();
+        
+        const alpha = p.noise(x, y, i) * 255;
+        color.setAlpha(alpha);
+        p.fill(color);
 
         const x1 = x * width;
         const y1 = y * width;
@@ -133,7 +138,7 @@ const makeSketch = (seed: any, paletteId: number) => {
       p.translate(x, y);
       p.rotate(rotation);
       
-      rect(width, color);
+      stiple(width, color);
       
       p.resetMatrix();
 

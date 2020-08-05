@@ -67,9 +67,9 @@ export default Vue.extend({
         };
       }
 
-      const { seed, paletteId } = makeArt(makeArtProps);
+      const { seed, paletteId, backgroundColor} = makeArt(makeArtProps);
 
-      console.log(seed, paletteId);
+      console.log(seed, paletteId, backgroundColor);
       this.loading = false;
     }, 100);
   }
