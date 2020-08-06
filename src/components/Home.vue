@@ -14,7 +14,7 @@
             <div class="card">
               <div class="card-image">
                 <figure class="image is-1by1">
-                  <router-link :to="{ name: piece.name, query: { force: true } }" >
+                  <router-link :to="piece.route" >
                     <img :src="piece.thumbnail" alt="Placeholder image" />
                   </router-link>
                 </figure>
@@ -23,7 +23,7 @@
               <div class="card-content">
                 <div class="content">
                   <p class="title">
-                    <router-link :to="{ name: piece.name }" >{{piece.name}}</router-link>
+                    <router-link :to="piece.route" >{{piece.name}}</router-link>
                   </p>
                   <p>{{piece.blurb}}</p>
                 </div>
@@ -43,6 +43,7 @@ import squaresPng from "./screenshots/squares.png";
 interface ArtPiece {
   name: string;
   thumbnail: string;
+  route: object;
   blurb?: string;
 }
 
@@ -58,11 +59,15 @@ export default Vue.extend({
           name: "squares",
           blurb: "Use dots to draw squares",
           thumbnail: squaresPng,
+          route: {
+            name: "squares", query: { force: true } 
+          }
         },
         {
           name: "lines",
           blurb: "Toss a coin draw a diagonal",
           thumbnail: "https://via.placeholder.com/200",
+          route: { name: "lines" }
         },
       ],
     };
