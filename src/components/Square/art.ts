@@ -80,14 +80,15 @@ const makeSketch = (seed: any, paletteId: number) => {
     const stiple = (width: number, color: p5.Color) => {
       const POINTS = p.map(width, MIN_WIDTH, MAX_WIDTH, MIN_POINTS, MAX_POINTS);
 
-      // const alpha = p.map(POINTS, MIN_POINTS, MAX_POINTS, 100, 10);
+      const alpha = p.map(POINTS, MIN_POINTS, MAX_POINTS, 100, 10);
+      color.setAlpha(alpha);
+      p.fill(color);
 
       for (let i = 0; i < POINTS; i++) {
         const [x, y] = haltonSequence.getNext();
         
-        const alpha = p.noise(x, y, i) * 255;
-        color.setAlpha(alpha);
-        p.fill(color);
+        // this makes the transparency look 'ripped'
+        // const alpha = p.noise(x, y, i) * 255;
 
         const x1 = x * width;
         const y1 = y * width;
