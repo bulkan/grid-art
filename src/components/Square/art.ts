@@ -4,6 +4,23 @@ import random from 'canvas-sketch-util/random';
 import { halton as Halton } from 'low-discrepancy-sequence';
 import { fitSquares } from "./fitSquares";
 
+
+const getCount = width => {
+  if (width >= 300 && width <= 450) {
+    return width * 0.15;
+  }
+
+  if (width >= 450 && width <= 550) {
+    return width * 0.155;
+  }
+
+  if (width >= 600) {
+    return width * 0.1;
+  }
+
+  return width * 0.16;
+};
+
 const makeSketch = (seed: any, paletteId: number) => {
   // interesting seeds
       // 955971
@@ -13,9 +30,9 @@ const makeSketch = (seed: any, paletteId: number) => {
       // 15965086346200000
       // 527.5082494902459
       // 74.0410697292676;
-      // 42.545741789881994
+      // 42.545741789881994  
+    
   const SEED = parseInt(seed) || Math.floor(Math.random() * 1000000);
-
   random.setSeed(SEED);
 
   // Interesting palettes = 41, 62, 108
@@ -33,7 +50,9 @@ const makeSketch = (seed: any, paletteId: number) => {
 
   const sketch = (p: p5) => {
     const CANVAS_WIDTH = fitSquares(p.windowWidth, p.windowHeight, 1) - p.windowWidth / 15;
-    const GRID_COUNT = CANVAS_WIDTH * 0.1;
+
+    // const GRID_COUNT = CANVAS_WIDTH * 0.1;
+    const GRID_COUNT = getCount(CANVAS_WIDTH)
     const MAX_POINTS = 4000;
     const MIN_POINTS = 2000;
     const MIN_WIDTH = CANVAS_WIDTH * 0.01;
