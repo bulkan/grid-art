@@ -4,10 +4,12 @@ import Buefy from 'buefy'
 import App from './components/App.vue';
 import Home from './components/Home.vue';
 import Square from './components/Square/Square.vue';
+import Lines from './components/Lines/Lines.vue';
 import 'buefy/dist/buefy.css'
 
 const routes = [
   { name: 'squares', path: '/squares', component: Square},
+  { name: 'lines', path: '/lines', component: Lines},
   { name: 'home', path: '/', component: Home },
 ];
 

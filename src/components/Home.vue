@@ -39,6 +39,7 @@
 <script lang="ts">
 import Vue from "vue";
 import squaresPng from "./screenshots/squares.png";
+import linesPng from "./screenshots/lines.png";
 
 interface ArtPiece {
   name: string;
@@ -66,7 +67,7 @@ export default Vue.extend({
         {
           name: "lines",
           blurb: "Toss a coin draw a diagonal",
-          thumbnail: "https://via.placeholder.com/200",
+          thumbnail: linesPng,
           route: { name: "lines" }
         },
       ],
