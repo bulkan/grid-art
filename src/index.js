@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router'
-import Buefy from 'buefy'
+// import Buefy from 'buefy'
 import App from './components/App.vue';
 import Home from './components/Home.vue';
 import Art from './components/Art.vue';
@@ -14,7 +14,7 @@ const routes = [
   { name: 'home', path: '/', component: Home },
 ];
 
-Vue.use(Buefy);
+// Vue.use(Buefy);
 Vue.use(VueRouter);
 
 Vue.component('Art', Art);
