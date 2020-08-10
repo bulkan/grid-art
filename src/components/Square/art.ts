@@ -2,6 +2,7 @@ import p5 from "p5";
 import palettes from 'nice-color-palettes/200.json';
 import random from 'canvas-sketch-util/random';
 import { halton as Halton } from 'low-discrepancy-sequence';
+import { IMakeArt } from "../../types";
 import { fitSquares } from "./fitSquares";
 
 
@@ -176,12 +177,6 @@ const makeSketch = (seed: any, paletteId: number) => {
 
   return { sketch, paletteIndex, SEED, backgroundColorString };
 };
-
-interface IMakeArt {
-  seed?: any;
-  paletteId?: number;
-  node: HTMLElement;
-}
 
 export const makeArt = ( {seed, paletteId, node}: IMakeArt) => {
   const { sketch, paletteIndex, SEED, backgroundColorString: backgroundColor } = makeSketch(seed, paletteId);
