@@ -38,6 +38,8 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { name as squareRoute } from './Square/Square.vue';
+import { name as linesRoute} from './Lines/Lines.vue';
 import squaresPng from "./screenshots/squares.png";
 import linesPng from "./screenshots/lines.png";
 
@@ -57,18 +59,18 @@ export default Vue.extend({
     return {
       artPieces: [
         {
-          name: "squares",
+          name: squareRoute,
           blurb: "Use dots to draw squares",
           thumbnail: squaresPng,
           route: {
-            name: "squares", query: { force: true } 
+            name: squareRoute, query: { force: true } 
           }
         },
         {
-          name: "lines",
+          name: linesRoute,
           blurb: "Toss a coin draw a diagonal",
           thumbnail: linesPng,
-          route: { name: "lines", query: { force: true } }
+          route: { name: linesRoute, query: { force: true } }
         },
       ],
     };

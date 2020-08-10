@@ -4,13 +4,14 @@ import VueRouter from 'vue-router'
 import App from './components/App.vue';
 import Home from './components/Home.vue';
 import Art from './components/Art.vue';
-import Square from './components/Square/Square.vue';
-import Lines from './components/Lines/Lines.vue';
+import Square, { name as squareRoute } from './components/Square/Square.vue';
+import Lines, { name as linesRoute} from './components/Lines/Lines.vue';
 import 'buefy/dist/buefy.css'
 
+
 const routes = [
-  { name: 'squares', path: '/squares', component: Square},
-  { name: 'lines', path: '/lines', component: Lines},
+  { name: squareRoute, path: `/${squareRoute}`, component: Square},
+  { name: linesRoute, path: `/${linesRoute}`, component: Lines},
   { name: 'home', path: '/', component: Home },
 ];
 
