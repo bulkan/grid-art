@@ -120,6 +120,7 @@ const makeSketch = (seed: any, paletteId: number) => {
     
     p.draw = () => {
       const data = points.pop();
+      p.noFill();
 
       if(!data) {
         p.noLoop()
@@ -131,13 +132,12 @@ const makeSketch = (seed: any, paletteId: number) => {
       const y = p.abs(p.lerp(MARGIN, p.height - MARGIN, position.v));
 
       p.translate(x, y);
-
-      p.strokeWeight(strokeWeight);
+ 
       p.strokeCap(p.SQUARE);
       p.stroke(color);
-      
-      // p.rect(0, 0, width, width);
 
+      
+      p.strokeWeight(strokeWeight);
       if (direction === RIGHT) {
         rightDiag(0, 0, width, color);
       } 
@@ -146,6 +146,10 @@ const makeSketch = (seed: any, paletteId: number) => {
         leftDiag(0, 0, width, color);
       }
       
+      color.setAlpha(50);
+      p.stroke(color);
+      p.strokeWeight(1);
+      p.rect(0, 0, width, width);
       p.resetMatrix();
 
       if (points.length === 0) {
