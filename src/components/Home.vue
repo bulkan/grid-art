@@ -3,7 +3,7 @@
     <div class="content is-medium">
       <h1>Generative Art</h1>
       <p>Reloading an artwork will create a new seed for random. It will then randomly select a palette from <a href="https://github.com/mattdesl/nice-color-palettes/blob/master/200.json">nice-color-palettes.</a></p>
-      <p>These paramaters are set in the url. You can remove <span class="is-italic has-text-weight-bold">force=true</span> as a parameter to regenerate the current art.</p>
+      <p>These paramaters are set in the url. You can remove <span class="is-italic has-text-weight-bold">random=true</span> as a parameter to regenerate the current art.</p>
       <p>Pressing cmd+s will save the canvas</p>
     </div>
 
@@ -63,14 +63,14 @@ export default Vue.extend({
           blurb: "Use dots to draw squares",
           thumbnail: squaresPng,
           route: {
-            name: squareRoute, query: { force: true } 
+            name: squareRoute, query: { random: true } 
           }
         },
         {
           name: linesRoute,
           blurb: "Toss a coin draw a diagonal",
           thumbnail: linesPng,
-          route: { name: linesRoute, query: { force: true } }
+          route: { name: linesRoute, query: { random: true } }
         },
       ],
     };

@@ -48,8 +48,8 @@ export default Vue.extend({
       return this.$route.query.pid;
     },
 
-    force() {
-      return this.$route.query.force;
+    random() {
+      return this.$route.query.random;
     }
   },
 
@@ -63,7 +63,7 @@ export default Vue.extend({
         node: this.$refs.canvasOutlet
       };
 
-      if(!this.force) {
+      if(!this.random) {
         makeArtProps = {
           ...makeArtProps,
           seed: this.seed,
@@ -78,8 +78,8 @@ export default Vue.extend({
         pid
       };
 
-      if(this.force) {
-        query.force = true;
+      if(this.random) {
+        query.random = true;
       }
 
       this.$router.replace({
