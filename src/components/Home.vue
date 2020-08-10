@@ -40,6 +40,7 @@
 import Vue from "vue";
 import { name as squareRoute } from './Square/Square.vue';
 import { name as linesRoute} from './Lines/Lines.vue';
+import { name as linesRoute2} from './Lines2/Lines.vue';
 import squaresPng from "./screenshots/squares.png";
 import linesPng from "./screenshots/lines.png";
 
@@ -68,6 +69,12 @@ export default Vue.extend({
         },
         {
           name: linesRoute,
+          blurb: "Toss a coin draw a diagonal",
+          thumbnail: linesPng,
+          route: { name: linesRoute, query: { random: true } }
+        },
+        {
+          name: linesRoute2,
           blurb: "Toss a coin draw a diagonal",
           thumbnail: linesPng,
           route: { name: linesRoute, query: { random: true } }
