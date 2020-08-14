@@ -13,7 +13,7 @@ import 'buefy/dist/buefy.css'
 const routes = [
   { name: squareRoute, path: `/${squareRoute}`, component: Square},
   { name: linesRoute, path: `/${linesRoute}`, component: Lines},
-  { name: linesRoute2, path: `/${linesRoute2}`, component: Lines},
+  { name: linesRoute2, path: `/${linesRoute2}`, component: Lines2},
   { name: 'home', path: '/', component: Home },
 ];
 

@@ -77,7 +77,7 @@ export default Vue.extend({
           name: linesRoute2,
           blurb: "Toss a coin draw a diagonal",
           thumbnail: linesPng,
-          route: { name: linesRoute, query: { random: true } }
+          route: { name: linesRoute2, query: { random: true } }
         },
       ],
     };

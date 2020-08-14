@@ -5,6 +5,8 @@ import { IMakeArt } from "../../types";
 import { fitSquares } from "../../utils";
 
 const makeSketch = (seed: any, paletteId: number) => {
+  let yoff = 0.0;
+
   const LEFT = 'LEFT';
   const RIGHT = 'RIGHT';
   const SEED = parseInt(seed) || Math.floor(Math.random() * 1000000);
@@ -24,21 +26,20 @@ const makeSketch = (seed: any, paletteId: number) => {
   palette.pop();
   palette.pop();
 
-
   const sketch = (p: p5) => {
     const CANVAS_WIDTH = fitSquares(p.windowWidth, p.windowHeight, 1) - p.windowWidth / 15;
-    const GRID_COUNT = 20;
+    const GRID_COUNT = 25;
     const MARGIN = CANVAS_WIDTH * 0.0775;
     
     p.randomSeed(SEED);
     p.noiseSeed(SEED);
 
-    let points;
+    let POSITIONS;
     const backgroundColor = p.color(backgroundColorString);
 
     const createGrid = () => {
       console.time('createGrid');
-      const points = [];
+      const POSITIONS = [];
       
       for (let x = 0; x < GRID_COUNT; x++) {      
         for (let y = 0; y < GRID_COUNT; y++) {
@@ -54,7 +55,7 @@ const makeSketch = (seed: any, paletteId: number) => {
           const opacity = p.map(strokeWeight, 1, 20, 200, 150);
           color.setAlpha(opacity);
 
-          points.push({
+          POSITIONS.push({
             strokeWeight,
             direction,
             color,
@@ -66,27 +67,52 @@ const makeSketch = (seed: any, paletteId: number) => {
       }
 
       console.timeEnd('createGrid');
-      return points;
+      return POSITIONS;
     };
 
+    const drawCurve = (p1: p5.Vector, p2: p5.Vector) => {
+      const points = [] ;
+
+      const step = 0.05;
+
+      for(let i=0; i <= 1; i += step) {
+        const noise = p.noise(i, yoff) * 40;
+        const v = p5.Vector.lerp(p1, p2, i) as unknown as p5.Vector;
+        v.add(noise)
+        points.push(v);
+      }
+
+      p.strokeWeight(3);
+
+      p.beginShape();
+      points.forEach(v => {
+        p.curveVertex(v.x, v.y);
+      });
+      p.endShape();
+    }
+
     const rightDiag = (x: number, y: number, width: number, color: p5.Color) => {
-      const x1 = 0;
-      const y1 = y + width;
+      // bottom left
+      const p1 = p.createVector(x, y + width);
 
-      const x2 = x + width;
-      const y2 = 0;
+      // top right
+      const p2 = p.createVector(x + width, 0);
 
-      p.line(x1, y1, x2, y2);
+      p.stroke(color);
+      
+      drawCurve(p1, p2);
     }
 
     const leftDiag = (x: number, y: number, width: number, color: p5.Color) => {
-      const x1 = 0;
-      const y1 = 0;
+      const p1 = p.createVector(0, 0);
 
-      const x2 = x + width;
-      const y2 = x + width;
+      // top right
+      const p2 = p.createVector(x + width, y + width);
 
-      p.line(x1, y1, x2, y2);
+
+      p.stroke(color);
+            
+      drawCurve(p1, p2);
     }
 
     p.setup = () => {
@@ -101,12 +127,12 @@ const makeSketch = (seed: any, paletteId: number) => {
       p.background(backgroundColor);
       // backgroundColor.setAlpha(128);
 
-      points = createGrid();
+      POSITIONS = createGrid();
           
       console.table({ 
         palette,
         paletteIndex,
-        pointsLegth: points.length,
+        POSITIONS_LENGTH: POSITIONS.length,
         backgroundColor: backgroundColor.toString(),
         MARGIN,
         GRID_COUNT,
@@ -119,7 +145,9 @@ const makeSketch = (seed: any, paletteId: number) => {
     };
     
     p.draw = () => {
-      const data = points.pop();
+      yoff += 0.1;
+
+      const data = POSITIONS.pop();
       p.noFill();
 
       if(!data) {
@@ -135,9 +163,8 @@ const makeSketch = (seed: any, paletteId: number) => {
  
       p.strokeCap(p.SQUARE);
       p.stroke(color);
-
-      
       p.strokeWeight(strokeWeight);
+
       if (direction === RIGHT) {
         rightDiag(0, 0, width, color);
       } 
@@ -145,14 +172,10 @@ const makeSketch = (seed: any, paletteId: number) => {
       if (direction === LEFT) {
         leftDiag(0, 0, width, color);
       }
-      
-      color.setAlpha(50);
-      p.stroke(color);
-      p.strokeWeight(1);
-      p.rect(0, 0, width, width);
+    
       p.resetMatrix();
 
-      if (points.length === 0) {
+      if (POSITIONS.length === 0) {
         console.log('done drawing');
         p.noLoop();
       }
