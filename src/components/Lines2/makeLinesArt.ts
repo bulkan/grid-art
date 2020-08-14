@@ -70,19 +70,22 @@ const makeSketch = (seed: any, paletteId: number) => {
       return POSITIONS;
     };
 
-    const drawCurve = (p1: p5.Vector, p2: p5.Vector) => {
-      const points = [] ;
+    const drawCurve = (p1: p5.Vector, p2: p5.Vector, color: p5.Color) => {
+      const points = [];
 
+      yoff += 0.01;
       const step = 0.05;
 
       for(let i=0; i <= 1; i += step) {
-        const noise = p.noise(i, yoff) * 40;
+        const noise = p.noise(i, yoff) * 30;
         const v = p5.Vector.lerp(p1, p2, i) as unknown as p5.Vector;
-        v.add(noise)
+        v.add(noise, p.random() * 2)
         points.push(v);
       }
 
-      p.strokeWeight(3);
+      p.strokeWeight(0.09);
+      color.setAlpha(15);
+      p.stroke(color);
 
       p.beginShape();
       points.forEach(v => {
@@ -98,9 +101,9 @@ const makeSketch = (seed: any, paletteId: number) => {
       // top right
       const p2 = p.createVector(x + width, 0);
 
-      p.stroke(color);
-      
-      drawCurve(p1, p2);
+      for(let i=0; i <= 200; i++) {
+        drawCurve(p1, p2, color);
+      }
     }
 
     const leftDiag = (x: number, y: number, width: number, color: p5.Color) => {
@@ -108,11 +111,10 @@ const makeSketch = (seed: any, paletteId: number) => {
 
       // top right
       const p2 = p.createVector(x + width, y + width);
-
-
-      p.stroke(color);
-            
-      drawCurve(p1, p2);
+      
+      for(let i=0; i <= 200; i++) {
+        drawCurve(p1, p2, color);
+      }
     }
 
     p.setup = () => {
@@ -145,7 +147,7 @@ const makeSketch = (seed: any, paletteId: number) => {
     };
     
     p.draw = () => {
-      yoff += 0.1;
+      // yoff += 0.1;
 
       const data = POSITIONS.pop();
       p.noFill();
