@@ -5,7 +5,7 @@
 <script>
 import { makeArt } from "./makeLinesArt";
 
-export const name = "lines2";
+export const name = "squiggles";
 
 export default {
   data() {

@@ -43,6 +43,7 @@ import { name as linesRoute} from './Lines/Lines.vue';
 import { name as linesRoute2} from './Lines2/Lines.vue';
 import squaresPng from "./screenshots/squares.png";
 import linesPng from "./screenshots/lines.png";
+import squigglePng from "./screenshots/squiggle.png";
 
 interface ArtPiece {
   name: string;
@@ -75,8 +76,8 @@ export default Vue.extend({
         },
         {
           name: linesRoute2,
-          blurb: "Toss a coin draw a diagonal",
-          thumbnail: linesPng,
+          blurb: "Toss a coin draw a squiggle",
+          thumbnail: squigglePng,
           route: { name: linesRoute2, query: { random: true } }
         },
       ],
