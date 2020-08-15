@@ -40,7 +40,7 @@
 import Vue from "vue";
 import { name as squareRoute } from './Square/Square.vue';
 import { name as linesRoute} from './Lines/Lines.vue';
-import { name as linesRoute2} from './Lines2/Lines.vue';
+import { name as squigglesRoute} from './Squiggles/Squiggles.vue';
 import squaresPng from "./screenshots/squares.png";
 import linesPng from "./screenshots/lines.png";
 import squigglePng from "./screenshots/squiggle.png";
@@ -75,10 +75,10 @@ export default Vue.extend({
           route: { name: linesRoute, query: { random: true } }
         },
         {
-          name: linesRoute2,
+          name: squigglesRoute,
           blurb: "Toss a coin draw a squiggle",
           thumbnail: squigglePng,
-          route: { name: linesRoute2, query: { random: true } }
+          route: { name: squigglesRoute, query: { random: true } }
         },
       ],
     };

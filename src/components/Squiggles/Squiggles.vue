@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { makeArt } from "./makeLinesArt";
+import { makeArt } from "./makeArt";
 
 export const name = "squiggles";
 

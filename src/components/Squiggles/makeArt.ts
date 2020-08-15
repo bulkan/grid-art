@@ -28,8 +28,8 @@ const makeSketch = (seed: any, paletteId: number) => {
 
   const sketch = (p: p5) => {
     const CANVAS_WIDTH = fitSquares(p.windowWidth, p.windowHeight, 1) - p.windowWidth / 15;
-    const GRID_COUNT = 25;
-    const MARGIN = CANVAS_WIDTH * 0.0775;
+    const GRID_COUNT = 20;
+    const MARGIN = CANVAS_WIDTH * 0.12;
     
     p.randomSeed(SEED);
     p.noiseSeed(SEED);
@@ -49,20 +49,15 @@ const makeSketch = (seed: any, paletteId: number) => {
 
           const noise = p.noise(x, y);
 
-          const width = 44;
+          const width = CANVAS_WIDTH / GRID_COUNT - MARGIN;
           const direction = noise > 0.4 ? LEFT : RIGHT;
-          const strokeWeight = p.random(1, 20);
-          const opacity = p.map(strokeWeight, 1, 20, 200, 150);
-          color.setAlpha(opacity);
 
           POSITIONS.push({
-            strokeWeight,
             direction,
             color,
             width,
             position: { u, v },
           });
-
         }
       }
 
@@ -70,57 +65,71 @@ const makeSketch = (seed: any, paletteId: number) => {
       return POSITIONS;
     };
 
-    const drawCurve = (p1: p5.Vector, p2: p5.Vector, color: p5.Color) => {
-      const points = [];
+    // const drawCurve = (direction: string, p1: p5.Vector, p2: p5.Vector, width: number, color: p5.Color) => {
+    const drawCurve = (direction: string, x: number, y: number, width: number, color: p5.Color) => {
+      let p1 = null;
+      let p2 = null;
 
-      yoff += 0.01;
-      const step = 0.05;
+      if (direction === RIGHT) {
+        // bottom left
+        p1 = p.createVector(x, y + width);
 
-      for(let i=0; i <= 1; i += step) {
-        const noise = p.noise(i, yoff) * 30;
-        const v = p5.Vector.lerp(p1, p2, i) as unknown as p5.Vector;
-        v.add(noise, p.random() * 2)
-        points.push(v);
+        // top right
+        p2 = p.createVector(x + width, 0);
       }
 
-      p.strokeWeight(0.09);
-      color.setAlpha(15);
-      p.stroke(color);
+      if (direction === LEFT) {
+        // top left;
+        p2 = p.createVector(0, 0);
 
-      p.beginShape();
-      points.forEach(v => {
-        p.curveVertex(v.x, v.y);
-      });
-      p.endShape();
-    }
-
-    const rightDiag = (x: number, y: number, width: number, color: p5.Color) => {
-      // bottom left
-      const p1 = p.createVector(x, y + width);
-
-      // top right
-      const p2 = p.createVector(x + width, 0);
-
-      for(let i=0; i <= 200; i++) {
-        drawCurve(p1, p2, color);
+        // top right
+        p1 = p.createVector(x + width, y + width);
       }
-    }
 
-    const leftDiag = (x: number, y: number, width: number, color: p5.Color) => {
-      const p1 = p.createVector(0, 0);
+      const _draw = () => {  
+        let points = direction === RIGHT ? [p1]: [p1];
 
-      // top right
-      const p2 = p.createVector(x + width, y + width);
-      
-      for(let i=0; i <= 200; i++) {
-        drawCurve(p1, p2, color);
+        const step = 0.25;
+        const amp = 10;
+        
+        for(let i=0; i < 1; i += step) {
+     
+          const v = p5.Vector.lerp(p1, p2, i) as unknown as p5.Vector;
+          
+          points.push(v);
+          yoff += 0.01;
+        }
+
+        const v = points[Math.floor(points.length / 2)];
+        const noise = p.noise(yoff) * amp;
+
+        if(direction === RIGHT) {
+          v.add(noise);
+        }
+
+        if(direction === LEFT) {
+          v.sub(noise);
+        }
+
+        points = direction === RIGHT ? [...points, p2, p2]: [...points, p2, p2];
+        p.strokeWeight(0.5);
+        color.setAlpha(5);
+        p.stroke(color);
+
+        p.beginShape();
+        points.forEach(v => p.curveVertex(v.x, v.y));
+        p.endShape();
+      }
+
+      for(let i=0; i <= 250; i++) {
+        _draw();
       }
     }
 
     p.setup = () => {
       document.onkeydown = function(e) {
         if (e.metaKey && e.keyCode === 83) {
-          p.saveCanvas(`lines-${SEED}-${paletteIndex}`, "png");
+          p.saveCanvas(`squiggles-${SEED}-${paletteIndex}`, "png");
           return false;
         }
       };
@@ -139,16 +148,11 @@ const makeSketch = (seed: any, paletteId: number) => {
         MARGIN,
         GRID_COUNT,
         SEED,
-        // MAX_WIDTH,
-        // MIN_WIDTH,
         CANVAS_WIDTH
       });
-
     };
     
     p.draw = () => {
-      // yoff += 0.1;
-
       const data = POSITIONS.pop();
       p.noFill();
 
@@ -157,23 +161,18 @@ const makeSketch = (seed: any, paletteId: number) => {
         return;
       }
 
-      const { strokeWeight, width, direction, color, position } = data;
-      const x = p.abs(p.lerp(MARGIN, p.width - MARGIN, position.u));
-      const y = p.abs(p.lerp(MARGIN, p.height - MARGIN, position.v));
+      const { width, direction, color, position } = data;
+      const x = p.lerp(MARGIN, CANVAS_WIDTH - MARGIN, position.u);
+      const y = p.lerp(MARGIN, CANVAS_WIDTH - MARGIN, position.v);
 
       p.translate(x, y);
- 
-      p.strokeCap(p.SQUARE);
-      p.stroke(color);
-      p.strokeWeight(strokeWeight);
 
-      if (direction === RIGHT) {
-        rightDiag(0, 0, width, color);
-      } 
+      // color.setAlpha(20);
+      // p.stroke(color);
+      // p.strokeWeight(1);
+      // p.rect(0, 0, width, width);
 
-      if (direction === LEFT) {
-        leftDiag(0, 0, width, color);
-      }
+      drawCurve(direction, 0, 0, width, color);
     
       p.resetMatrix();
 
