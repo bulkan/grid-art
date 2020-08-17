@@ -28,7 +28,7 @@ const makeSketch = (seed: any, paletteId: number) => {
 
   const sketch = (p: p5) => {
     const CANVAS_WIDTH = fitSquares(p.windowWidth, p.windowHeight, 1) - p.windowWidth / 15;
-    const GRID_COUNT = 20;
+    const GRID_COUNT = 40;
     const MARGIN = CANVAS_WIDTH * 0.12;
     
     p.randomSeed(SEED);
@@ -49,7 +49,7 @@ const makeSketch = (seed: any, paletteId: number) => {
 
           const noise = p.noise(x, y);
 
-          const width = CANVAS_WIDTH / GRID_COUNT - MARGIN;
+          const width =  CANVAS_WIDTH * 0.06; //CANVAS_WIDTH / GRID_COUNT - MARGIN;
           const direction = noise > 0.4 ? LEFT : RIGHT;
 
           POSITIONS.push({
@@ -89,31 +89,28 @@ const makeSketch = (seed: any, paletteId: number) => {
       const _draw = () => {  
         let points = direction === RIGHT ? [p1]: [p1];
 
-        const step = 0.25;
-        const amp = 10;
+        const step = 0.01;
+        const amp = 20;
         
         for(let i=0; i < 1; i += step) {
+          const noise = p.noise(yoff) * amp;
      
           const v = p5.Vector.lerp(p1, p2, i) as unknown as p5.Vector;
+          if(direction === RIGHT) {
+            v.add(noise);
+          }
+  
+          if(direction === LEFT) {
+            v.sub(noise);
+          }
           
           points.push(v);
-          yoff += 0.01;
+          yoff += 0.02;
         }
 
-        const v = points[Math.floor(points.length / 2)];
-        const noise = p.noise(yoff) * amp;
-
-        if(direction === RIGHT) {
-          v.add(noise);
-        }
-
-        if(direction === LEFT) {
-          v.sub(noise);
-        }
-
-        points = direction === RIGHT ? [...points, p2, p2]: [...points, p2, p2];
-        p.strokeWeight(0.5);
-        color.setAlpha(5);
+        points = direction === RIGHT ? [...points, p2]: [...points, p2];
+        p.strokeWeight(0.6);
+        color.setAlpha(155);
         p.stroke(color);
 
         p.beginShape();
@@ -121,7 +118,7 @@ const makeSketch = (seed: any, paletteId: number) => {
         p.endShape();
       }
 
-      for(let i=0; i <= 250; i++) {
+      for(let i=0; i <= 5; i++) {
         _draw();
       }
     }
@@ -136,9 +133,8 @@ const makeSketch = (seed: any, paletteId: number) => {
       
       p.createCanvas(CANVAS_WIDTH, CANVAS_WIDTH);
       p.background(backgroundColor);
-      // backgroundColor.setAlpha(128);
 
-      POSITIONS = createGrid();
+      POSITIONS = createGrid().filter(() => p.random() > 0.75);
           
       console.table({ 
         palette,
