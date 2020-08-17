@@ -23,12 +23,12 @@ const makeSketch = (seed: any, paletteId: number) => {
 
   const backgroundColorString = palette.pop();
   
-  palette.pop();
-  palette.pop();
+  // palette.pop();
+  // palette.pop();
 
   const sketch = (p: p5) => {
     const CANVAS_WIDTH = fitSquares(p.windowWidth, p.windowHeight, 1) - p.windowWidth / 15;
-    const GRID_COUNT = 40;
+    const GRID_COUNT = 125;
     const MARGIN = CANVAS_WIDTH * 0.12;
     
     p.randomSeed(SEED);
@@ -47,13 +47,15 @@ const makeSketch = (seed: any, paletteId: number) => {
           const u = x / (GRID_COUNT - 1);
           const v = y / (GRID_COUNT - 1);
 
-          const noise = p.noise(x, y);
+          const noise = p.noise(u, v);
 
-          const width =  CANVAS_WIDTH * 0.06; //CANVAS_WIDTH / GRID_COUNT - MARGIN;
+          const width = p.map(noise, 0, 1, CANVAS_WIDTH * 0.01, CANVAS_WIDTH * 0.05); //CANVAS_WIDTH / GRID_COUNT - MARGIN;
           const direction = noise > 0.4 ? LEFT : RIGHT;
+          const rotation = p.map(noise, 0, 1, 0, p.TWO_PI);
 
           POSITIONS.push({
             direction,
+            rotation,
             color,
             width,
             position: { u, v },
@@ -110,7 +112,7 @@ const makeSketch = (seed: any, paletteId: number) => {
 
         points = direction === RIGHT ? [...points, p2]: [...points, p2];
         p.strokeWeight(0.6);
-        color.setAlpha(155);
+        color.setAlpha(200);
         p.stroke(color);
 
         p.beginShape();
@@ -118,7 +120,7 @@ const makeSketch = (seed: any, paletteId: number) => {
         p.endShape();
       }
 
-      for(let i=0; i <= 5; i++) {
+      for(let i=0; i <= 3; i++) {
         _draw();
       }
     }
@@ -133,6 +135,7 @@ const makeSketch = (seed: any, paletteId: number) => {
       
       p.createCanvas(CANVAS_WIDTH, CANVAS_WIDTH);
       p.background(backgroundColor);
+      p.rectMode(p.CENTER);
 
       POSITIONS = createGrid().filter(() => p.random() > 0.75);
           
@@ -157,11 +160,12 @@ const makeSketch = (seed: any, paletteId: number) => {
         return;
       }
 
-      const { width, direction, color, position } = data;
+      const { rotation, width, direction, color, position } = data;
       const x = p.lerp(MARGIN, CANVAS_WIDTH - MARGIN, position.u);
       const y = p.lerp(MARGIN, CANVAS_WIDTH - MARGIN, position.v);
 
       p.translate(x, y);
+      p.rotate(rotation);
 
       // color.setAlpha(20);
       // p.stroke(color);
