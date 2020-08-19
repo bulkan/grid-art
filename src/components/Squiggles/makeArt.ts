@@ -20,7 +20,6 @@ const makeSketch = (seed: any, paletteId: number) => {
   }
   
   const palette = palettes[paletteIndex];
-
   const backgroundColorString = palette.pop();
   
   // palette.pop();
@@ -30,9 +29,18 @@ const makeSketch = (seed: any, paletteId: number) => {
     const CANVAS_WIDTH = fitSquares(p.windowWidth, p.windowHeight, 1) - p.windowWidth / 15;
     const GRID_COUNT = 125;
     const MARGIN = CANVAS_WIDTH * 0.12;
-    
+
     p.randomSeed(SEED);
     p.noiseSeed(SEED);
+    
+    // const CELL_COLOR = p.color(palette[Math.floor(p.random(palette.length))]);
+    const CELL_COLOR = p.color(palette.pop());
+
+    const h = p.hue(CELL_COLOR); 
+    const s = p.saturation(CELL_COLOR); 
+    const l = p.lightness(CELL_COLOR); 
+
+    console.log(h, s, l);
 
     let POSITIONS;
     const backgroundColor = p.color(backgroundColorString);
@@ -43,11 +51,11 @@ const makeSketch = (seed: any, paletteId: number) => {
       
       for (let x = 0; x < GRID_COUNT; x++) {      
         for (let y = 0; y < GRID_COUNT; y++) {
-          const color = p.color(palette[Math.floor(p.random(palette.length))]);
           const u = x / (GRID_COUNT - 1);
           const v = y / (GRID_COUNT - 1);
-
           const noise = p.noise(u, v);
+      
+          const color = p.color(h, p.map(noise, 0, 1, 0, 100), l);
 
           const width = p.map(noise, 0, 1, CANVAS_WIDTH * 0.01, CANVAS_WIDTH * 0.05); //CANVAS_WIDTH / GRID_COUNT - MARGIN;
           const direction = noise > 0.4 ? LEFT : RIGHT;
@@ -112,7 +120,7 @@ const makeSketch = (seed: any, paletteId: number) => {
 
         points = direction === RIGHT ? [...points, p2]: [...points, p2];
         p.strokeWeight(0.6);
-        color.setAlpha(200);
+        // color.setAlpha(200);
         p.stroke(color);
 
         p.beginShape();
@@ -133,6 +141,7 @@ const makeSketch = (seed: any, paletteId: number) => {
         }
       };
       
+      p.colorMode(p.HSL);
       p.createCanvas(CANVAS_WIDTH, CANVAS_WIDTH);
       p.background(backgroundColor);
       p.rectMode(p.CENTER);
