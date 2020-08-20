@@ -22,18 +22,14 @@ const makeSketch = (seed: any, paletteId: number) => {
   const palette = palettes[paletteIndex];
   const backgroundColorString = palette.pop();
   
-  // palette.pop();
-  // palette.pop();
-
   const sketch = (p: p5) => {
     const CANVAS_WIDTH = fitSquares(p.windowWidth, p.windowHeight, 1) - p.windowWidth / 15;
     const GRID_COUNT = 125;
-    const MARGIN = CANVAS_WIDTH * 0.12;
+    const MARGIN = CANVAS_WIDTH * 0.05;
 
     p.randomSeed(SEED);
     p.noiseSeed(SEED);
     
-    // const CELL_COLOR = p.color(palette[Math.floor(p.random(palette.length))]);
     const CELL_COLOR = p.color(palette.pop());
 
     const h = p.hue(CELL_COLOR); 
@@ -55,11 +51,11 @@ const makeSketch = (seed: any, paletteId: number) => {
           const v = y / (GRID_COUNT - 1);
           const noise = p.noise(u, v);
       
-          const color = p.color(h, p.map(noise, 0, 1, 0, 100), l);
+          const color = p.color(h, p.map(noise, 0, 1, 0, 100), p.map(noise, 0, 1, 0, 100));
 
-          const width = p.map(noise, 0, 1, CANVAS_WIDTH * 0.01, CANVAS_WIDTH * 0.05); //CANVAS_WIDTH / GRID_COUNT - MARGIN;
+          const width = p.map(noise, 0, 1, CANVAS_WIDTH * 0.0001, CANVAS_WIDTH * 0.1); //CANVAS_WIDTH / GRID_COUNT - MARGIN;
           const direction = noise > 0.4 ? LEFT : RIGHT;
-          const rotation = p.map(noise, 0, 1, 0, p.TWO_PI);
+          const rotation = p.map(noise, 0, 1, 0, p.PI);
 
           POSITIONS.push({
             direction,
@@ -96,6 +92,9 @@ const makeSketch = (seed: any, paletteId: number) => {
         p1 = p.createVector(x + width, y + width);
       }
 
+      p.strokeWeight(0.6);
+      p.stroke(color);
+
       const _draw = () => {  
         let points = direction === RIGHT ? [p1]: [p1];
 
@@ -115,20 +114,17 @@ const makeSketch = (seed: any, paletteId: number) => {
           }
           
           points.push(v);
-          yoff += 0.02;
+          yoff += 0.03;
         }
 
         points = direction === RIGHT ? [...points, p2]: [...points, p2];
-        p.strokeWeight(0.6);
-        // color.setAlpha(200);
-        p.stroke(color);
 
         p.beginShape();
         points.forEach(v => p.curveVertex(v.x, v.y));
         p.endShape();
       }
 
-      for(let i=0; i <= 3; i++) {
+      for(let i=0; i <= 2; i++) {
         _draw();
       }
     }
@@ -175,11 +171,6 @@ const makeSketch = (seed: any, paletteId: number) => {
 
       p.translate(x, y);
       p.rotate(rotation);
-
-      // color.setAlpha(20);
-      // p.stroke(color);
-      // p.strokeWeight(1);
-      // p.rect(0, 0, width, width);
 
       drawCurve(direction, 0, 0, width, color);
     
