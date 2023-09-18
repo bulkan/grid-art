@@ -1,11 +1,13 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 // import Buefy from 'buefy'
-import App from "./components/App.vue";
-import Home from "./components/Home.vue";
-import Art from "./components/Art.vue";
-import Square, { name as squareRoute } from "./components/Square/Square.vue";
-import Lines, { name as linesRoute } from "./components/Lines/Lines.vue";
+import App from "./src/components/App.vue";
+import Home from "./src/components/Home.vue";
+import Art from "./src/components/Art.vue";
+import Square, {
+  name as squareRoute
+} from "./src/components/Square/Square.vue";
+import Lines, { name as linesRoute } from "./src/components/Lines/Lines.vue";
 import Squiggles, {
   name as squigglesRoute
 } from "./components/Squiggles/Squiggles.vue";
