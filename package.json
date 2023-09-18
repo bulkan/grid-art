@@ -14,7 +14,7 @@
   "author": "Bulkan Evcimen <bulkan@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "buefy": "^0.8.20",
+    "buefy": "^0.9.23",
     "canvas-sketch-util": "^1.10.0",
     "low-discrepancy-sequence": "^0.2.1",
     "nice-color-palettes": "^3.0.0",
