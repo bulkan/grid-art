@@ -43,7 +43,7 @@ const makeSketch = (seed: any, paletteId?: number) => {
     p.randomSeed(SEED);
     p.noiseSeed(SEED);
 
-    let points: Position[];
+    let points: Position[] = [];
     const backgroundColor = p.color(backgroundColorString);
 
     const createGrid = () => {
