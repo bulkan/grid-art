@@ -21,7 +21,7 @@ const getCount = (width: number) => {
   return width * 0.16;
 };
 
-const makeSketch = (seed: any, paletteId: number) => {
+const makeSketch = (seed: any, paletteId?: number) => {
   // interesting seeds
   // 955971
   // 823050
@@ -44,7 +44,7 @@ const makeSketch = (seed: any, paletteId: number) => {
   }
 
   const palette = palettes[paletteIndex];
-  const backgroundColorString = palette.pop();
+  const backgroundColorString = palette.pop() || "white";
 
   palette.pop();
   palette.pop();
@@ -96,7 +96,7 @@ const makeSketch = (seed: any, paletteId: number) => {
               color,
               rotation,
               width,
-              position: { u, v }
+              position: { u, v },
             });
           }
         }
@@ -127,7 +127,7 @@ const makeSketch = (seed: any, paletteId: number) => {
     };
 
     p.setup = () => {
-      document.onkeydown = function(e) {
+      document.onkeydown = function (e) {
         if (e.metaKey && e.keyCode === 83) {
           p.saveCanvas(`squares-${SEED}-${paletteIndex}`, "png");
           return false;
@@ -153,7 +153,7 @@ const makeSketch = (seed: any, paletteId: number) => {
         MAX_POINTS,
         MAX_WIDTH,
         MIN_WIDTH,
-        CANVAS_WIDTH
+        CANVAS_WIDTH,
       });
     };
 
@@ -191,7 +191,7 @@ export const makeArt = ({ seed, paletteId, node }: IMakeArt) => {
     sketch,
     paletteIndex,
     SEED,
-    backgroundColorString: backgroundColor
+    backgroundColorString: backgroundColor,
   } = makeSketch(seed, paletteId);
 
   new p5(sketch, node);

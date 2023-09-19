@@ -1,7 +1,11 @@
 export const pipe = <R>(fn1: (a: R) => R, ...fns: Array<(a: R) => R>) =>
-  fns.reduce((prevFn, nextFn) => value => nextFn(prevFn(value)), fn1);
+  fns.reduce((prevFn, nextFn) => (value) => nextFn(prevFn(value)), fn1);
 
-export const fitSquares = (width: number, height: number, n): number => {
+export const fitSquares = (
+  width: number,
+  height: number,
+  n: number
+): number => {
   let sx = 0;
   let sy = 0;
 

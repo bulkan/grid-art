@@ -1,59 +1,81 @@
 import p5 from "p5";
-import palettes from 'nice-color-palettes/200.json';
-import random from 'canvas-sketch-util/random';
+import palettes from "nice-color-palettes/200.json";
+import random from "canvas-sketch-util/random";
 import { IMakeArt } from "../../types";
 import { fitSquares } from "../../utils";
 
-const makeSketch = (seed: any, paletteId: number) => {
+const LEFT = "LEFT";
+const RIGHT = "RIGHT";
+type Direction = typeof LEFT | typeof RIGHT;
+
+type Position = {
+  direction: Direction;
+  color: p5.Color;
+  rotation: number;
+  width: number;
+  position: { u: number; v: number };
+};
+
+const makeSketch = (seed: any, paletteId?: number) => {
   let yoff = 0.0;
 
-  const LEFT = 'LEFT';
-  const RIGHT = 'RIGHT';
   const SEED = parseInt(seed) || Math.floor(Math.random() * 1000000);
   random.setSeed(SEED);
 
   // Interesting palettes = 41, 62, 108
-  let paletteIndex = paletteId || Math.floor(random.valueNonZero() * palettes.length);
-  
+  let paletteIndex =
+    paletteId || Math.floor(random.valueNonZero() * palettes.length);
+
   if (paletteIndex >= palettes.length) {
     paletteIndex = Math.floor(random.valueNonZero() * palettes.length);
   }
-  
+
   const palette = palettes[paletteIndex];
-  const backgroundColorString = palette.pop();
-  
+  const backgroundColorString = palette.pop() || "white";
+
   const sketch = (p: p5) => {
-    const CANVAS_WIDTH = fitSquares(p.windowWidth, p.windowHeight, 1) - p.windowWidth / 15;
+    const CANVAS_WIDTH =
+      fitSquares(p.windowWidth, p.windowHeight, 1) - p.windowWidth / 15;
     const GRID_COUNT = 125;
     const MARGIN = CANVAS_WIDTH * 0.05;
 
     p.randomSeed(SEED);
     p.noiseSeed(SEED);
-    
-    const CELL_COLOR = p.color(palette.pop());
 
-    const h = p.hue(CELL_COLOR); 
-    const s = p.saturation(CELL_COLOR); 
-    const l = p.lightness(CELL_COLOR); 
+    const CELL_COLOR = p.color(palette.pop() || "white");
+
+    const h = p.hue(CELL_COLOR);
+    const s = p.saturation(CELL_COLOR);
+    const l = p.lightness(CELL_COLOR);
 
     console.log(h, s, l);
 
-    let POSITIONS;
+    let POSITIONS: Position[] = [];
     const backgroundColor = p.color(backgroundColorString);
 
     const createGrid = () => {
-      console.time('createGrid');
-      const POSITIONS = [];
-      
-      for (let x = 0; x < GRID_COUNT; x++) {      
+      console.time("createGrid");
+
+      for (let x = 0; x < GRID_COUNT; x++) {
         for (let y = 0; y < GRID_COUNT; y++) {
           const u = x / (GRID_COUNT - 1);
           const v = y / (GRID_COUNT - 1);
           const noise = p.noise(u, v);
-      
-          const color = p.color(h, p.map(noise, 0, 1, 0, 100), p.map(noise, 0, 1, 0, 100));
 
-          const width = p.map(noise, 0, 1, CANVAS_WIDTH * 0.0001, CANVAS_WIDTH * 0.1); //CANVAS_WIDTH / GRID_COUNT - MARGIN;
+          const color = p.color(
+            h,
+            p.map(noise, 0, 1, 0, 100),
+            p.map(noise, 0, 1, 0, 100)
+          );
+
+          const width = p.map(
+            noise,
+            0,
+            1,
+            CANVAS_WIDTH * 0.0001,
+            CANVAS_WIDTH * 0.1
+          );
+
           const direction = noise > 0.4 ? LEFT : RIGHT;
           const rotation = p.map(noise, 0, 1, 0, p.PI);
 
@@ -67,14 +89,20 @@ const makeSketch = (seed: any, paletteId: number) => {
         }
       }
 
-      console.timeEnd('createGrid');
+      console.timeEnd("createGrid");
       return POSITIONS;
     };
 
     // const drawCurve = (direction: string, p1: p5.Vector, p2: p5.Vector, width: number, color: p5.Color) => {
-    const drawCurve = (direction: string, x: number, y: number, width: number, color: p5.Color) => {
-      let p1 = null;
-      let p2 = null;
+    const drawCurve = (
+      direction: string,
+      x: number,
+      y: number,
+      width: number,
+      color: p5.Color
+    ) => {
+      let p1: p5.Vector = p.createVector();
+      let p2: p5.Vector = p.createVector();
 
       if (direction === RIGHT) {
         // bottom left
@@ -95,56 +123,56 @@ const makeSketch = (seed: any, paletteId: number) => {
       p.strokeWeight(0.6);
       p.stroke(color);
 
-      const _draw = () => {  
-        let points = direction === RIGHT ? [p1]: [p1];
+      const _draw = () => {
+        let points = direction === RIGHT ? [p1] : [p1];
 
         const step = 0.01;
         const amp = 20;
-        
-        for(let i=0; i < 1; i += step) {
+
+        for (let i = 0; i < 1; i += step) {
           const noise = p.noise(yoff) * amp;
-     
+
           const v = p5.Vector.lerp(p1, p2, i) as unknown as p5.Vector;
-          if(direction === RIGHT) {
+          if (direction === RIGHT) {
             v.add(noise);
           }
-  
-          if(direction === LEFT) {
+
+          if (direction === LEFT) {
             v.sub(noise);
           }
-          
+
           points.push(v);
           yoff += 0.03;
         }
 
-        points = direction === RIGHT ? [...points, p2]: [...points, p2];
+        points = direction === RIGHT ? [...points, p2] : [...points, p2];
 
         p.beginShape();
-        points.forEach(v => p.curveVertex(v.x, v.y));
+        points.forEach((v) => p.curveVertex(v.x, v.y));
         p.endShape();
-      }
+      };
 
-      for(let i=0; i <= 2; i++) {
+      for (let i = 0; i <= 2; i++) {
         _draw();
       }
-    }
+    };
 
     p.setup = () => {
-      document.onkeydown = function(e) {
+      document.onkeydown = function (e) {
         if (e.metaKey && e.keyCode === 83) {
           p.saveCanvas(`squiggles-${SEED}-${paletteIndex}`, "png");
           return false;
         }
       };
-      
+
       p.colorMode(p.HSL);
       p.createCanvas(CANVAS_WIDTH, CANVAS_WIDTH);
       p.background(backgroundColor);
       p.rectMode(p.CENTER);
 
       POSITIONS = createGrid().filter(() => p.random() > 0.75);
-          
-      console.table({ 
+
+      console.table({
         palette,
         paletteIndex,
         POSITIONS_LENGTH: POSITIONS.length,
@@ -152,16 +180,16 @@ const makeSketch = (seed: any, paletteId: number) => {
         MARGIN,
         GRID_COUNT,
         SEED,
-        CANVAS_WIDTH
+        CANVAS_WIDTH,
       });
     };
-    
+
     p.draw = () => {
       const data = POSITIONS.pop();
       p.noFill();
 
-      if(!data) {
-        p.noLoop()
+      if (!data) {
+        p.noLoop();
         return;
       }
 
@@ -173,11 +201,11 @@ const makeSketch = (seed: any, paletteId: number) => {
       p.rotate(rotation);
 
       drawCurve(direction, 0, 0, width, color);
-    
+
       p.resetMatrix();
 
       if (POSITIONS.length === 0) {
-        console.log('done drawing');
+        console.log("done drawing");
         p.noLoop();
       }
     };
@@ -186,10 +214,15 @@ const makeSketch = (seed: any, paletteId: number) => {
   return { sketch, paletteIndex, SEED, backgroundColorString };
 };
 
-export const makeArt = ( {seed, paletteId, node}: IMakeArt) => {
-  const { sketch, paletteIndex, SEED, backgroundColorString: backgroundColor } = makeSketch(seed, paletteId);
+export const makeArt = ({ seed, paletteId, node }: IMakeArt) => {
+  const {
+    sketch,
+    paletteIndex,
+    SEED,
+    backgroundColorString: backgroundColor,
+  } = makeSketch(seed, paletteId);
 
   new p5(sketch, node);
 
-  return { paletteId: paletteIndex, seed: SEED, backgroundColor};
+  return { paletteId: paletteIndex, seed: SEED, backgroundColor };
 };

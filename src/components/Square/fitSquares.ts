@@ -1,5 +1,9 @@
-export const fitSquares = (width: number, height: number, n): number => {
-  let sx = 0
+export const fitSquares = (
+  width: number,
+  height: number,
+  n: number
+): number => {
+  let sx = 0;
   let sy = 0;
 
   const px = Math.ceil(Math.sqrt((n * width) / height));
@@ -19,4 +23,4 @@ export const fitSquares = (width: number, height: number, n): number => {
   }
 
   return Math.max(sx, sy);
-}
+};
