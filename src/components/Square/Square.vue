@@ -2,7 +2,7 @@
   <Art :art-fn="makeArt" :name="name" />
 </template>
 
-<script>
+<script lang="ts">
 import { makeArt } from "./art";
 
 export const name = "square";

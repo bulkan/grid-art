@@ -3,6 +3,8 @@
     <div class="title" v-if="loading" id="loading">Generating...</div>
     <div id="canvasOutlet" ref="canvasOutlet"><div>
   </div>
+  </div>
+  </div>
 </template>
 
 <style scoped lang="scss">
@@ -26,10 +28,10 @@
 }
 </style>
 
-<script>
-import Vue from "vue";
+<script lang="ts">
 
-export default Vue.extend({
+
+export default {
   props: {
     artFn: Function,
     name: String
@@ -47,31 +49,23 @@ export default Vue.extend({
     paletteId() {
       return this.$route.query.pid;
     },
-
     random() {
       return this.$route.query.random;
     }
   },
 
   destroyed() {
-    document.body.bgColor = 'white';
+    document.body.style.backgroundColor = 'white';
   },
 
   mounted() {
     setTimeout(() => {
-      let makeArtProps = {
-        node: this.$refs.canvasOutlet
+      const makeArtProps = {
+        node: this.$refs.canvasOutlet,
+        ...(!this.random && {seed: this.seed, paletteId: this.paletteId} )
       };
 
-      if(!this.random) {
-        makeArtProps = {
-          ...makeArtProps,
-          seed: this.seed,
-          paletteId: this.paletteId,
-        };
-      }
-
-      const { seed, paletteId: pid, backgroundColor} = this.artFn(makeArtProps);
+      const { seed, paletteId: pid, backgroundColor} = this.artFn && this.artFn(makeArtProps);
 
       const query = {
         seed,
@@ -79,6 +73,7 @@ export default Vue.extend({
       };
 
       if(this.random) {
+        // @ts-ignore
         query.random = true;
       }
 
@@ -87,10 +82,10 @@ export default Vue.extend({
         query
       }).catch(() => {});
 
-      document.body.bgColor = backgroundColor;
+      document.body.style.backgroundColor = backgroundColor;
 
       this.loading = false;
     }, 100);
   }
-});
+};
 </script>

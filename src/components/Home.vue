@@ -23,7 +23,7 @@
               <div class="card-content">
                 <div class="content">
                   <p class="title">
-                    <router-link :to="piece.route" >{{piece.name}}</router-link>
+                    <router-link :to="piece.route">{{piece.name}}</router-link>
                   </p>
                   <p>{{piece.blurb}}</p>
                 </div>
@@ -37,10 +37,9 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { name as squareRoute } from './Square/Square.vue';
-import { name as linesRoute} from './Lines/Lines.vue';
-import { name as squigglesRoute} from './Squiggles/Squiggles.vue';
+import { name as squareRouteName } from './Square/Square.vue';
+import { name as lineRouteName } from './Lines/Lines.vue';
+import {name as squigglesRouteName} from './Squiggles/Squiggles.vue';
 import squaresPng from "./screenshots/squares.png";
 import linesPng from "./screenshots/lines.png";
 import squigglePng from "./screenshots/squiggle.png";
@@ -56,34 +55,40 @@ interface Data {
   artPieces: ArtPiece[];
 }
 
-export default Vue.extend({
+export default {
+
+  mounted() {
+     document.body.style.backgroundColor = 'white';
+  },
+
+
   data(): Data {
     return {
       artPieces: [
         {
-          name: squareRoute,
+          name: squareRouteName,
           blurb: "Use dots to draw squares",
           thumbnail: squaresPng,
           route: {
-            name: squareRoute, query: { random: true } 
+            name: squareRouteName, query: { random: true } 
           }
         },
         {
-          name: linesRoute,
+          name: lineRouteName,
           blurb: "Toss a coin draw a diagonal",
           thumbnail: linesPng,
-          route: { name: linesRoute, query: { random: true } }
+          route: { name: lineRouteName, query: { random: true } }
         },
         {
-          name: squigglesRoute,
+          name: squigglesRouteName,
           blurb: "Toss a coin draw a squiggle",
           thumbnail: squigglePng,
-          route: { name: squigglesRoute, query: { random: true } }
+          route: { name: squigglesRouteName, query: { random: true } }
         },
-      ],
-    };
-  },
-});
+      ]
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
