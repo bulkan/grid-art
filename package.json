@@ -14,7 +14,7 @@
   "license": "MIT",
   "dependencies": {
     "@vitejs/plugin-vue": "6.0.1",
-    "buefy": "^0.9.23",
+    "buefy": "3.0.0",
     "canvas-sketch-util": "^1.10.0",
     "low-discrepancy-sequence": "^0.2.1",
     "nice-color-palettes": "^4.0.0",
