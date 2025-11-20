@@ -53,7 +53,6 @@ const makeSketch = (seed: any, paletteId?: number) => {
     const CANVAS_WIDTH =
       fitSquares(p.windowWidth, p.windowHeight, 1) - p.windowWidth / 15;
 
-    // const GRID_COUNT = CANVAS_WIDTH * 0.1;
     const GRID_COUNT = getCount(CANVAS_WIDTH);
     const MAX_POINTS = 4000;
     const MIN_POINTS = 2000;
@@ -77,7 +76,6 @@ const makeSketch = (seed: any, paletteId?: number) => {
 
     const createGrid = () => {
       console.time("createGrid");
-      // const points = [];
 
       for (let x = 0; x < GRID_COUNT; x++) {
         for (let y = 0; y < GRID_COUNT; y++) {
@@ -87,8 +85,7 @@ const makeSketch = (seed: any, paletteId?: number) => {
           const u = x / (GRID_COUNT - 1);
           const v = y / (GRID_COUNT - 1);
 
-          //p.map(p.noise(u, v), 0, 1, MIN_WIDTH, MAX_WIDTH);
-          const width = Math.abs(p.random(MIN_WIDTH, MAX_WIDTH));
+          const width = p.map(p.noise(v, u), 0, 1, MIN_WIDTH, MAX_WIDTH);
           const rotation = p.map(p.noise(u, v), 0, 1, 0, p.TWO_PI);
 
           if (p.random() > 0.85) {
@@ -106,10 +103,10 @@ const makeSketch = (seed: any, paletteId?: number) => {
       return points;
     };
 
-    const stiple = (width: number, color: p5.Color) => {
+    const stiple = (width: number, color: p5.Color, direction: number) => {
       const POINTS = p.map(width, MIN_WIDTH, MAX_WIDTH, MIN_POINTS, MAX_POINTS);
 
-      const alpha = p.map(POINTS, MIN_POINTS, MAX_POINTS, 100, 10);
+      let alpha = p.map(POINTS, MIN_POINTS, MAX_POINTS, 100, 10);
       color.setAlpha(alpha);
       p.fill(color);
 
@@ -118,13 +115,18 @@ const makeSketch = (seed: any, paletteId?: number) => {
 
         // this makes the transparency look 'ripped'
         // const alpha = p.noise(x, y, i) * 255;
+        // color.setAlpha(alpha);
 
         const x1 = x * width;
         const y1 = y * width;
 
-        p.circle(x1, y1, 1);
+        const d = direction === 1 ? 1 : 10;
+        p.circle(x1, y1, d);
       }
     };
+
+    let index = 0;
+    let direction = 1;
 
     p.setup = () => {
       document.onkeydown = function (e) {
@@ -157,11 +159,23 @@ const makeSketch = (seed: any, paletteId?: number) => {
       });
     };
 
+    const flipDirection = () => {
+      if (
+        (index >= points.length && direction === 1) ||
+        (index <= 0 && direction === -1)
+      ) {
+        console.log("flipping direction");
+        direction = direction * -1;
+        index += direction;
+      }
+    };
+
     p.draw = () => {
-      const data = points.pop();
+      const data = points.at(index);
 
       if (!data) {
-        p.noLoop();
+        console.log("nodata?");
+        flipDirection();
         return;
       }
 
@@ -172,7 +186,7 @@ const makeSketch = (seed: any, paletteId?: number) => {
       p.translate(x, y);
       p.rotate(rotation);
 
-      stiple(width, color);
+      stiple(width, color, direction);
 
       p.resetMatrix();
 
@@ -180,6 +194,9 @@ const makeSketch = (seed: any, paletteId?: number) => {
         console.log("done drawing");
         p.noLoop();
       }
+
+      index += direction;
+      flipDirection();
     };
   };
 

@@ -11,9 +11,8 @@ export default {
   data() {
     return {
       name,
-      makeArt
-    }
-  }  
+      makeArt,
+    };
+  },
 };
-
 </script>
